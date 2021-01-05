@@ -1,0 +1,59 @@
+<form #signUpForm = "ngForm">
+    <div [style.display] = "openSignUpModalInput ? 'block': 'none'" style="opacity: 1;" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Create Account</h5>
+                <button type="button" class="btn-close" (click)="closeSignUpModal()"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row mb-3">
+                    <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="firstName" name="firstName">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="lastName" name="lastName">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="pas" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="pas" name="password">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="confirmPas" class="col-sm-2 col-form-label">Confirm Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="confirmPas" name="confirmPass">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="role" class="col-sm-2 col-form-label">Role</label>
+                    <div class="col-sm-10">
+                        <select id="role" class="form-select" name="roleSelect">
+                            <option selected>Choose Role</option>
+                            <option>Administrator</option>
+                            <option>Owner</option>
+                            <option>Viewer</option>
+                        </select>
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="button" class="btn btn-secondary" (click)="closeSignUpModal()">Cancel</button>
+              </div>
+            </div>
+          </div>
+    </div>
+</form>

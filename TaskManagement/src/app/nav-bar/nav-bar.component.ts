@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-nav-bar',
@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
+  @Output('openModalEvent') openModalEvent = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  openModal(): void{
+    console.log("inside navbar open modal");
+    this.openModalEvent.emit(true);
+  }
 }

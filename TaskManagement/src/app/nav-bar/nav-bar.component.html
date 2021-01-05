@@ -10,29 +10,9 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id="loginButton" role="button" data-bs-toggle="modal" data-bs-target="#loginModal">
+            <a class="nav-link" href="#" id="loginButton" (click)="openModal()">
               Log In
             </a>
-            <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="loginModalLabel">Log In</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <label for="email">Email:</label><br>
-                      <input type="email" name="email"/><br>
-                      <label for="password">Password:</label><br>
-                      <input type="password" name="password"/>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Log In</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
           </li>
         </ul>
       </div>
