@@ -10,11 +10,18 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id="loginButton" (click)="openModal()">
+            <a class="nav-link" href="#" id="loginButton" (click)="openModal()" *ngIf="!isLoggedIn()">
               Log In
+            </a>
+            <a class="nav-link" href="#" id="logoutButton" (click)="logOut()" *ngIf="isLoggedIn()">
+              Log Out
             </a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
+  <div class="container" *ngIf="isLoggedIn()">
+    <app-update-account></app-update-account>
+  </div>

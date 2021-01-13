@@ -1,4 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { LogIn } from '../model/log-in';
+import { UserService } from '../service/user-service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,7 +10,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class NavBarComponent implements OnInit {
   @Output('openModalEvent') openModalEvent = new EventEmitter();
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
   }
@@ -16,5 +18,18 @@ export class NavBarComponent implements OnInit {
   openModal(): void{
     console.log("inside navbar open modal");
     this.openModalEvent.emit(true);
+  }
+
+  logOut(): void{
+    this.userService.logOut()
+    .subscribe(res => {
+      localStorage.clear();
+    }, err =>{
+
+    });
+  }
+
+  isLoggedIn(): boolean{
+    return localStorage.length > 0;
   }
 }
