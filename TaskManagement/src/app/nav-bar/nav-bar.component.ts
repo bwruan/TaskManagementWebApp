@@ -16,7 +16,6 @@ export class NavBarComponent implements OnInit {
   }
 
   openModal(): void{
-    console.log("inside navbar open modal");
     this.openModalEvent.emit(true);
   }
 

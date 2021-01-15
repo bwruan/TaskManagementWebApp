@@ -16,6 +16,8 @@ export class UpdateAccountComponent implements OnInit {
   updateAccountObj: UpdateAccount = new UpdateAccount();
   roles: Roles[];
   showMessage: any;
+  buttonDisabled: boolean;
+  successMessage: boolean;
 
   constructor(private userService: UserService, private roleService: RoleService) { }
 
@@ -24,6 +26,7 @@ export class UpdateAccountComponent implements OnInit {
     .subscribe(res => {
       let nameArray = res.name.split(" ");
 
+      this.updateAccountObj.id = Number(localStorage.getItem("accountId"));
       this.updateAccountObj.firstName = nameArray[0];
       this.updateAccountObj.lastName = nameArray[1];
       this.updateAccountObj.email = res.email;
@@ -34,10 +37,8 @@ export class UpdateAccountComponent implements OnInit {
 
     this.roleService.getRoles()
     .subscribe(res => {
-      console.log("Happy Path :D");
       this.roles = res;
     }, err => {
-      console.log("Error Path D:");
       this.showMessage = "Unable to grab roles.";
     });
   }
@@ -45,17 +46,18 @@ export class UpdateAccountComponent implements OnInit {
   updateSubmit(){
     console.log(this.updateAccountObj);    
 
-    this.userService.updateAccount(new AccountInfoRequest(this.updateAccountObj.id, this.updateAccountObj.firstName + this.updateAccountObj.lastName, this.updateAccountObj.email,
-      this.updateAccountObj.roleId, null))
+    this.userService.updateAccount(new AccountInfoRequest(this.updateAccountObj.id, this.updateAccountObj.firstName + " " + this.updateAccountObj.lastName, this.updateAccountObj.email,
+      Number(this.updateAccountObj.roleId), null))
       .subscribe(res => {
         console.log("Happy path");
         console.log(res);
-        this.showMessage = undefined;
+        this.successMessage = true;
+        this.showMessage = "Account updated!";
       }, err => {
         console.log("Error path");
         console.log(err);
+        this.successMessage = false;
         this.showMessage = err.error;
       });
   }
-
 }

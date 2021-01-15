@@ -32,7 +32,6 @@ export class LogInComponent implements OnInit {
   }
 
   openSignUpModal(): void{
-    console.log("closing log in modal, opening sign up modal")
     this.closeModal();
     this.openSignUpModalEvent.emit(true);
   }
@@ -41,7 +40,6 @@ export class LogInComponent implements OnInit {
     console.log(this,this.loginObj);
     this.userService.logIn(new LoginRequest(this.loginObj.email, this.loginObj.password))
     .subscribe(res => {
-      console.log("Happy Path :D");
       console.log(res);
       this.showMessage = undefined;
 
@@ -51,9 +49,9 @@ export class LogInComponent implements OnInit {
 
       this.closeModal();
     }, err => {
-      console.log("Error Path D:");
       console.log(err);
-      this.showMessage = err.error;      
+      this.showMessage = "Unable to log in: " + err.error;
+      ;      
     });
   }
 }

@@ -28,7 +28,6 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
     this.roleService.getRoles()
     .subscribe(res => {
-      console.log("Happy Path :D");
       this.roles = res;
       let defaultRole = new Roles();
       defaultRole.id = 0;
@@ -37,13 +36,11 @@ export class SignUpComponent implements OnInit {
 
       this.createAccountObj.roleId = 0;
     }, err => {
-      console.log("Error Path D:");
       this.showMessage = "Unable to grab roles with error: " + err.error;
     });
   }
 
   closeSignUpModal(): void{
-    console.log("closing sign up modal");
     this.closeModalEvent.emit(false);
     this.showMessage = undefined;
   }
@@ -63,11 +60,9 @@ export class SignUpComponent implements OnInit {
     this.userService.createAccount(new AccountRequest(this.createAccountObj.id, this.createAccountObj.firstName + " " + this.createAccountObj.lastName, this.createAccountObj.email, 
       this.createAccountObj.password, this.createAccountObj.roleId, this.createAccountObj.profilePic))
       .subscribe(res => {
-        console.log("Happy Path :D");
         console.log(res);
         this.showMessage = undefined;
       }, err => {
-        console.log("Error Path D:");
         console.log(err);
         this.showMessage = err.error;        
       });

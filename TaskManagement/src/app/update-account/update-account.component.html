@@ -1,5 +1,8 @@
-<div class="row">
-    <div class="alert alert-danger" role="alert" *ngIf="showMessage">
+<div class="row" *ngIf="showMessage">
+    <div class="alert alert-success" role="alert" *ngIf = "successMessage">
+        {{showMessage}}
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf = "!successMessage">
         {{showMessage}}
     </div>
 </div>
@@ -15,32 +18,31 @@
             <div class="row mb-3">
                 <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="firstName" name="newFirst" [(ngModel)]="updateAccountObj.firstName">
+                  <input type="text" class="form-control" id="firstName" name="newFirst" [(ngModel)]="updateAccountObj.firstName" required>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="lastName" name="newLast" [(ngModel)]="updateAccountObj.lastName">
+                  <input type="text" class="form-control" id="lastName" name="newLast" [(ngModel)]="updateAccountObj.lastName" required>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="email" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
-                  <input type="email" class="form-control" id="email" name="newEmail" [(ngModel)]="updateAccountObj.email">
+                  <input type="email" class="form-control" id="email" name="newEmail" [(ngModel)]="updateAccountObj.email" required>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="role" class="col-sm-2 col-form-label">Role</label>
                 <div class="col-sm-10">
-                    <select class="form-select" id="role" name="newRole" [(ngModel)]="updateAccountObj.roleId">
+                    <select class="form-select" id="role" name="newRole" [(ngModel)]="updateAccountObj.roleId" required>
                         <option *ngFor="let role of roles" value={{role.id}}>{{role.name}}</option>
                     </select>
                 </div>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" (click)="updateForm.reset()">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="updateForm.form.invalid">Save</button>
             </div>
         </form>
     </div>
