@@ -1,0 +1,58 @@
+<div class="row" *ngIf="showMessage">
+    <div class="alert alert-success" role="alert" *ngIf = "successMessage">
+        {{showMessage}}
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf = "!successMessage">
+        {{showMessage}}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-3">
+        <img src="assets/image/defaultProfile.jpg" alt="" [style.border-style]="'solid'">
+    </div>
+    
+    <div class="col-6">
+        <form #updateForm = "ngForm" (ngSubmit) = "updateSubmit()">
+            <div class="row mb-3">
+                <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="firstName" name="newFirst" [(ngModel)]="updateAccountObj.firstName" required>
+                    <span [ngStyle]="errorMsgStyle" *ngIf="updateForm.controls['newFirst'].invalid && (updateForm.controls['newFirst'].dirty || updateForm.controls['newFirst'].touched) && updateForm.controls['newFirst'].errors" class="alert">
+                    Please enter a first name.
+                </span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="lastName" name="newLast" [(ngModel)]="updateAccountObj.lastName" required>
+                    <span [ngStyle]="errorMsgStyle" *ngIf="updateForm.controls['newLast'].invalid && (updateForm.controls['newLast'].dirty || updateForm.controls['newLast'].touched) && updateForm.controls['newLast'].errors" class="alert">
+                    Please enter a last name.
+                </span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" name="newEmail" [(ngModel)]="updateAccountObj.email" required>
+                    <span [ngStyle]="errorMsgStyle" *ngIf="updateForm.controls['newEmail'].invalid && (updateForm.controls['newEmail'].dirty || updateForm.controls['newEmail'].touched) && updateForm.controls['newEmail'].errors" class="alert">
+                    Please enter an email.
+                </span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="role" class="col-sm-2 col-form-label">Role</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="role" name="newRole" [(ngModel)]="updateAccountObj.roleId" required>
+                        <option *ngFor="let role of roles" value={{role.id}}>{{role.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary" [disabled]="updateForm.form.invalid">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

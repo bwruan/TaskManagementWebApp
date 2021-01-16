@@ -1,57 +1,72 @@
-<form #signUpForm = "ngForm">
+<form #signUpForm = "ngForm" (ngSubmit)="signUpSumbit()">
     <div [style.display] = "openSignUpModalInput ? 'block': 'none'" style="opacity: 1;" class="modal">
         <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="loginModalLabel">Create Account</h5>
-                <button type="button" class="btn-close" (click)="closeSignUpModal()"></button>
+                <button type="button" class="btn-close" (click)="closeSignUpModal(); signUpForm.reset()"></button>
               </div>
               <div class="modal-body">
                 <div class="row mb-3">
                     <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="firstName" name="firstName">
+                        <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="createAccountObj.firstName" required>
+                        <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['firstName'].invalid && (signUpForm.controls['firstName'].dirty || signUpForm.controls['firstName'].touched) && signUpForm.controls['firstName'].errors" class="alert">
+                            First name needed.
+                        </span>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="lastName" name="lastName">
+                        <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="createAccountObj.lastName" required>
+                        <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['lastName'].invalid && (signUpForm.controls['lastName'].dirty || signUpForm.controls['lastName'].touched) && signUpForm.controls['lastName'].errors" class="alert">
+                            Last name needed.
+                        </span>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="email" name="email">
+                        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="createAccountObj.email" required>
+                        <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['email'].invalid && (signUpForm.controls['email'].dirty || signUpForm.controls['email'].touched) && signUpForm.controls['email'].errors" class="alert">
+                            Please enter an email address.
+                        </span>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="pas" class="col-sm-2 col-form-label">Password</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="pas" name="password">
+                        <input type="password" class="form-control" id="pas" name="password" [(ngModel)]="createAccountObj.password" required>
+                        <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['password'].invalid && (signUpForm.controls['password'].dirty || signUpForm.controls['password'].touched) && signUpForm.controls['password'].errors" class="alert">
+                            Please enter a password.
+                        </span>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="confirmPas" class="col-sm-2 col-form-label">Confirm Password</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="confirmPas" name="confirmPass">
+                        <input type="password" class="form-control" id="confirmPas" name="confirmPass" [(ngModel)]="createAccountObj.confirmPassword" required>
+                        <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['confirmPass'].invalid && (signUpForm.controls['confirmPass'].dirty || signUpForm.controls['confirmPass'].touched) && signUpForm.controls['confirmPass'].errors" class="alert">
+                            Please confirm password.
+                        </span>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="role" class="col-sm-2 col-form-label">Role</label>
                     <div class="col-sm-10">
-                        <select id="role" class="form-select" name="roleSelect">
-                            <option selected>Choose Role</option>
-                            <option>Administrator</option>
-                            <option>Owner</option>
-                            <option>Viewer</option>
+                        <select id="role" class="form-select" name="roleSelect" [(ngModel)]="createAccountObj.roleId" required>
+                            <option *ngFor="let role of roles" value={{role.id}}>{{role.name}}</option>
                         </select>
+                        <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['roleSelect'].invalid && (signUpForm.controls['roleSelect'].dirty || signUpForm.controls['roleSelect'].touched) && signUpForm.controls['roleSelect'].errors" class="alert">
+                            Please select a role.
+                          </span>
                     </div>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Sign Up</button>
-                <button type="button" class="btn btn-secondary" (click)="closeSignUpModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="signUpForm.form.invalid">Sign Up</button>
+                <button type="button" class="btn btn-secondary" (click)="closeSignUpModal(); signUpForm.reset()">Cancel</button>
               </div>
             </div>
           </div>
