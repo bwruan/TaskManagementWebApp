@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './service/user-service';
 import { UpdateAccountComponent } from './update-account/update-account.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { UpdateAccountComponent } from './update-account/update-account.componen
     NavBarComponent,
     SignUpComponent,
     LogInComponent,
-    UpdateAccountComponent
+    UpdateAccountComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

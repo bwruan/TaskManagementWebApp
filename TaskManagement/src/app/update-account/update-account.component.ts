@@ -18,6 +18,11 @@ export class UpdateAccountComponent implements OnInit {
   showMessage: any;
   buttonDisabled: boolean;
   successMessage: boolean;
+  errorMsgStyle: any = {
+    color: "red",
+    fontStyle: "italic",
+    fontSize: "10"
+  };
 
   constructor(private userService: UserService, private roleService: RoleService) { }
 
