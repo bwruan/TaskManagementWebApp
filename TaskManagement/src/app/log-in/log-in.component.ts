@@ -50,8 +50,7 @@ export class LogInComponent implements OnInit {
       this.closeModal();
     }, err => {
       console.log(err);
-      this.showMessage = "Unable to log in: " + err.error;
-      ;      
+      this.showMessage = "Unable to log in: " + err.error;      
     });
   }
 }
