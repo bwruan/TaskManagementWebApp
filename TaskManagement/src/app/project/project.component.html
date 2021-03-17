@@ -1,18 +1,55 @@
-<div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-3">
-        <img src="assets/image/defaultProfile.jpg" alt="" [style.border-style]="'solid'">
-      </div>
-      <div class="col-9">
-        <div class="card-body">
-          <h3 class="card-title">Project Name</h3>
-          <p class="card-text">This is a description of the project.</p>
-          <span class="card-text">Start Date: 02/18/2021</span>
-          <p class="card-text">End Date: 06/18/2021</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+<div class="row">
+    <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-3">
+            <img src="assets/image/defaultProfile.jpg" alt="" [style.border-style]="'solid'">
+          </div>
+          <div class="col-9">
+            <div class="card-body">
+              <h3 class="card-title" [(ngModel)]="projectObj.projectName">{{projectObj.projectName}}</h3>
+              <p class="card-text" [(ngModel)]="projectObj.projectDescription">{{projectObj.projectDescription}}</p>
+              <span class="card-text" >Start Date: 02/18/2021</span>
+              <p class="card-text">End Date: 06/18/2021</p>
+              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  
+<div class="row">
+    <p></p>
+    <p></p>
+    <p></p>
+</div>
+
+<div class="row">
+    <h2 style.fontStyle="bold">PROJECT MEMBERS</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Status</th>
+                <th scope="col"> </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Jason Ruan</th>
+                <td>email2@email.com</td>
+                <td>Administrator</td>
+                <td>Offline</td>
+                <td> </td>
+            </tr>
+            <tr>
+                <th scope="row">Becky Ruan</th>
+                <td>email@email.com</td>
+                <td>Administrator</td>
+                <td>Online</td>
+                <td> </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
