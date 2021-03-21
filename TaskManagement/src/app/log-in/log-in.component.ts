@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { LogIn } from '../model/log-in';
 import { LoginRequest } from '../model/request/login-request';
 import { UserService } from '../service/user-service';
@@ -12,6 +12,7 @@ export class LogInComponent implements OnInit {
   @Input('openModalInput') openModalInput: boolean;
   @Output('closeModalEvent') closeModalEvent = new EventEmitter();
   @Output('openSignUpModalEvent') openSignUpModalEvent = new EventEmitter();
+  @ViewChild('loginForm') loginForm; //feth reference of form using ViewChild property
 
   loginObj: LogIn = new LogIn();
   showMessage: any;
@@ -24,6 +25,12 @@ export class LogInComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges() {
+    if (this.openModalInput){
+      this.loginForm.reset();
+    }
   }
 
   closeModal(): void{
@@ -50,8 +57,7 @@ export class LogInComponent implements OnInit {
       this.closeModal();
     }, err => {
       console.log(err);
-      this.showMessage = "Unable to log in: " + err.error;
-      ;      
+      this.showMessage = "Unable to log in: " + err.error;      
     });
   }
 }

@@ -10,6 +10,8 @@ import { UserService } from '../service/user-service';
 export class NavBarComponent implements OnInit {
   @Output('openModalEvent') openModalEvent = new EventEmitter();
 
+  showMessage: any;
+
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
@@ -24,7 +26,7 @@ export class NavBarComponent implements OnInit {
     .subscribe(res => {
       localStorage.clear();
     }, err =>{
-
+      this.showMessage = "Unable to log out: " + err.error;
     });
   }
 

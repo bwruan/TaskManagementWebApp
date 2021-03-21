@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './service/user-service';
 import { UpdateAccountComponent } from './update-account/update-account.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ProjectComponent } from './project/project.component';
+import { ProjectPageComponent } from './project/project-page/project-page.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
     SignUpComponent,
     LogInComponent,
     UpdateAccountComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ProjectComponent,
+    ProjectPageComponent
   ],
   imports: [
     BrowserModule,
