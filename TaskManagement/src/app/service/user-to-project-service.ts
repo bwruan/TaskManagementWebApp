@@ -20,7 +20,7 @@ export class UserToProjectService {
             "Authorization": "Bearer "+ token
         });
 
-        return this._http.get<Account[]>(this.baseUrl + "/usertoproject/" + projectId, {headers: header});
+        return this._http.get<Account[]>(this.baseUrl + "/usertoproject/project/" + projectId, {headers: header});
     }
 
     getProjectsByAccountId(): Observable<Project[]>{
@@ -30,6 +30,6 @@ export class UserToProjectService {
         });
 
         let accountId = localStorage.getItem("accountId");
-        return this._http.get<Project[]>(this.baseUrl + "/usertoproject/" + accountId, {headers: header});
+        return this._http.get<Project[]>(this.baseUrl + "/usertoproject/account/" + accountId, {headers: header});
     }
 }

@@ -17,7 +17,7 @@
               </a>
             </li>
             <li class="nav-item" *ngIf="isLoggedIn()">
-              <a class="nav-link" routerLink="/projectpage">Project</a>
+              <a class="nav-link" routerLink="/projects">Project</a>
             </li>
             <li class="nav-item dropdown" *ngIf="isLoggedIn()">
               <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -31,7 +31,7 @@
                 <li>
                   <a class="dropdown-item" routerLink="/accountsetting">Account Settings</a></li>
                 <li>
-                  <a class="dropdown-item" href="#" id="logoutButton" (click)="logOut()">
+                  <a class="dropdown-item" routerLink="" id="logoutButton" (click)="logOut()">
                     Log Out
                   </a>
               </li>

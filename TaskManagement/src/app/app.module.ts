@@ -12,6 +12,7 @@ import { UserService } from './service/user-service';
 import { UpdateAccountComponent } from './update-account/update-account.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ProjectComponent } from './project/project.component';
+import { ProjectPageComponent } from './project/project-page/project-page.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProjectComponent } from './project/project.component';
     LogInComponent,
     UpdateAccountComponent,
     NotFoundComponent,
-    ProjectComponent
+    ProjectComponent,
+    ProjectPageComponent
   ],
   imports: [
     BrowserModule,
