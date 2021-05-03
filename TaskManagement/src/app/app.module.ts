@@ -13,6 +13,7 @@ import { UpdateAccountComponent } from './update-account/update-account.componen
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ProjectComponent } from './project/project.component';
 import { ProjectPageComponent } from './project/project-page/project-page.component';
+import { TaskComponent } from './task/task.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ProjectPageComponent } from './project/project-page/project-page.compon
     UpdateAccountComponent,
     NotFoundComponent,
     ProjectComponent,
-    ProjectPageComponent
+    ProjectPageComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,

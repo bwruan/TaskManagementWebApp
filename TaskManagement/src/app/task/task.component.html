@@ -1,0 +1,42 @@
+<div class="row">
+    <h2 style.fontStyle="bold">PROJECT TASKS</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Task</th>
+                <th scope="col">Description</th>
+                <th scope="col">Assigned To</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr (click)="openModal()">
+                <th scope="row">Task1</th>
+                <td>Task 1 Description</td>
+                <td>Becky</td>
+                <td>06/29/2021</td>
+                <td>Not Complete</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div [style.display] = "taskModalState ? 'block': 'none'" style="opacity: 1;" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalLabel">Task Name</h5>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                Description of task
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                <button type="button" class="btn btn-primary">Mark Complete</button>
+            </div>
+        </div>
+    </div>
+</div>
+

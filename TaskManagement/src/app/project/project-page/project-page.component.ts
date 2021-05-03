@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Account } from 'src/app/model/account';
 import { Project } from 'src/app/model/project';
@@ -11,6 +11,7 @@ import { UserToProjectService } from 'src/app/service/user-to-project-service';
   styleUrls: ['./project-page.component.css']
 })
 export class ProjectPageComponent implements OnInit {
+  
   accounts: Account[];
   showMessage: any;
   projectObj: Project = new Project();
