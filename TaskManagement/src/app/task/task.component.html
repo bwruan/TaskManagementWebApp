@@ -11,12 +11,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr (click)="openModal()">
-                <th scope="row">Task1</th>
-                <td>Task 1 Description</td>
-                <td>Becky</td>
-                <td>06/29/2021</td>
-                <td>Not Complete</td>
+            <tr (click)="openModal()" *ngFor="let task of tasks" value="{{task.projectId}}">
+                <th scope="row">{{task.taskName}}</th>
+                <td>{{task.taskDescription}}</td>
+                <td>{{task.taskeeId}}</td>
+                <td>{{task.dueDate | date: 'shortDate'}}</td>
+                <td *ngIf="task.isCompleted">Completed</td>
+                <td *ngIf="!task.isCompleted">Not Completed</td>
             </tr>
         </tbody>
     </table>
@@ -26,11 +27,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="taskModalLabel">Task Name</h5>
+                <h5 class="modal-title" id="taskModalLabel">{{taskObj.taskName}}</h5>
                 <button type="button" class="btn-close" (click)="closeModal()"></button>
             </div>
             <div class="modal-body">
-                Description of task
+                {{taskObj.taskDescription}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
