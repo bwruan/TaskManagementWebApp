@@ -28,10 +28,8 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  openModal(): void{
+  openModal(taskId): void{
     this.taskModalState = true;
-
-    let taskId = this.taskObj.taskId;
 
     this.taskService.getTaskByTaskId(taskId)
     .subscribe(res => {
@@ -40,7 +38,9 @@ export class TaskComponent implements OnInit {
       
       this.taskObj.taskName = res.taskName;
       this.taskObj.taskDescription = res.taskDescription;
-    })
+    }, err => {
+      console.log("unable to grab task info");
+    });
   }
 
   closeModal(): void{

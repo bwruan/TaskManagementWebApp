@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr (click)="openModal()" *ngFor="let task of tasks" value="{{task.projectId}}">
+            <tr (click)="openModal(task.taskId)" *ngFor="let task of tasks" value="{{task.projectId}}">
                 <th scope="row">{{task.taskName}}</th>
                 <td>{{task.taskDescription}}</td>
                 <td>{{task.taskeeId}}</td>
