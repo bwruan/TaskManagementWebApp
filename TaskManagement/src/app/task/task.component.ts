@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Account } from '../model/account';
 import { Task } from '../model/task';
 import { TaskService } from '../service/task-service';
 
@@ -19,6 +20,7 @@ export class TaskComponent implements OnInit {
   ngOnInit(): void {
     let projectId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.taskObj.projectId = projectId;
+    this.taskObj.taskeeAccount = new Account();
 
     this.taskService.getTasksByProjectId(projectId)
     .subscribe(res => {
@@ -38,7 +40,7 @@ export class TaskComponent implements OnInit {
       
       this.taskObj.taskName = res.taskName;
       this.taskObj.taskDescription = res.taskDescription;
-      // this.taskObj.taskeeAccount = res.taskeeAccount;
+      this.taskObj.taskeeAccount = res.taskeeAccount;
       this.taskObj.dueDate = res.dueDate;
       this.taskObj.completedDate = res.completedDate;
     }, err => {
