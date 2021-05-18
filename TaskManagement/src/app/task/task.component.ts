@@ -35,8 +35,7 @@ export class TaskComponent implements OnInit {
 
     this.taskService.getTaskByTaskId(taskId)
     .subscribe(res => {
-      console.log("grabbing task info");
-      console.log(taskId);
+
       
       this.taskObj.taskName = res.taskName;
       this.taskObj.taskDescription = res.taskDescription;

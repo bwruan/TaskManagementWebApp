@@ -27,7 +27,6 @@ export class ProjectComponent implements OnInit {
   }
 
   onSelect(projectId): void {
-    console.log(projectId);
     this.router.navigate(['/projects', projectId]);
   }
 }
