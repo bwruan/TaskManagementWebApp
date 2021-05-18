@@ -38,6 +38,9 @@ export class TaskComponent implements OnInit {
       
       this.taskObj.taskName = res.taskName;
       this.taskObj.taskDescription = res.taskDescription;
+      // this.taskObj.taskeeAccount = res.taskeeAccount;
+      this.taskObj.dueDate = res.dueDate;
+      this.taskObj.completedDate = res.completedDate;
     }, err => {
       console.log("unable to grab task info");
     });
