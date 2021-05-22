@@ -1,18 +1,18 @@
-export class TaskRequest {
+export class TaskRequest{
     taskId: number;
     taskName: string;
     taskDescription: string;
     projectId: number;
     taskeeId: number;
-    isCompleted: boolean;
+    isComplete: boolean;
 
     constructor(taskId: number, taskName: string, taskDescription: string, projectId: number, 
-        taskeeId: number, isCompleted: boolean){
+        taskeeId: number, isComplete: boolean){
             this.taskId = taskId;
             this.taskName = taskName;
             this.taskDescription = taskDescription;
             this.projectId = projectId;
             this.taskeeId = taskeeId;
-            this.isCompleted = isCompleted;
+            this.isComplete = isComplete;
     }
 }

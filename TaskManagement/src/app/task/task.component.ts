@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Account } from '../model/account';
+import { CompleteRequest } from '../model/request/complete-request';
 import { Task } from '../model/task';
 import { TaskService } from '../service/task-service';
 
@@ -35,13 +36,13 @@ export class TaskComponent implements OnInit {
 
     this.taskService.getTaskByTaskId(taskId)
     .subscribe(res => {
-
-      
       this.taskObj.taskName = res.taskName;
       this.taskObj.taskDescription = res.taskDescription;
       this.taskObj.taskeeAccount = res.taskeeAccount;
       this.taskObj.dueDate = res.dueDate;
       this.taskObj.completedDate = res.completedDate;
+      this.taskObj.taskId = res.taskId;
+      this.taskObj.isComplete = res.isComplete;
     }, err => {
       console.log("unable to grab task info");
     });
@@ -49,5 +50,19 @@ export class TaskComponent implements OnInit {
 
   closeModal(): void{
     this.taskModalState = false;
+  }
+
+  markComplete(): void{
+    this.taskService.markComplete(new CompleteRequest(this.taskObj.taskId, this.taskObj.isComplete))
+    .subscribe(res => {
+      console.log("Task completed");
+      this.closeModal();      
+    }, err => {
+      console.log(err.error());
+    });
+  }
+
+  taskCompleted(): boolean{
+    return this.taskObj.isComplete;
   }
 }

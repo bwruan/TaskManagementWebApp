@@ -16,8 +16,8 @@
                 <td>{{task.taskDescription}}</td>
                 <td>{{task.taskeeAccount.name}}</td>
                 <td>{{task.dueDate | date: 'shortDate'}}</td>
-                <td *ngIf="task.isCompleted">Completed</td>
-                <td *ngIf="!task.isCompleted">Not Completed</td>
+                <td *ngIf="task.isComplete">Completed</td>
+                <td *ngIf="!task.isComplete">Not Completed</td>
             </tr>
         </tbody>
     </table>
@@ -34,11 +34,12 @@
                 <p>{{taskObj.taskDescription}}</p>
                 <span><small class="text-muted">Assigned to: {{taskObj.taskeeAccount.name}}</small></span>
                 <p><small class="text-muted">Due Date: {{taskObj.dueDate | date: 'shortDate'}}</small></p>
-                <span><small class="text-muted">Completed Date: {{taskObj.completedDate}}</small></span>
+                <span><small class="text-muted">Completed Date: {{taskObj.completedDate | date: 'shortDate'}}</small></span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-                <button type="button" class="btn btn-primary">Mark Complete</button>
+                <button type="button" class="btn btn-primary" (click)="markComplete()" *ngIf="!taskCompleted()">Mark Complete</button>
+                <button type="button" class="btn btn-primary" disabled *ngIf="taskCompleted()">Completed</button>
             </div>
         </div>
     </div>
