@@ -1,5 +1,3 @@
-import { BaseAccountRequest } from "./base-account-request";
-
 export class AccountInfoRequest{
     id: number;
     newName: string;

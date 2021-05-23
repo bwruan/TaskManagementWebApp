@@ -32,12 +32,12 @@ export class TaskService {
         return this._http.get<Task>(this.baseUrl + "/task/task/" + taskId, {headers: header});
     }
 
-    markComplete(markCompleteObj : CompleteRequest){
+    markComplete(taskObj : CompleteRequest): Observable<any>{
         let token = localStorage.getItem("token");
         let header = new HttpHeaders({
             "Authorization": "Bearer "+ token
         });
 
-        return this._http.patch(this.baseUrl + "/task/complete", markCompleteObj, {headers: header});
+        return this._http.patch(this.baseUrl + "/task/complete", taskObj, {headers: header});
     }
 }

@@ -1,9 +1,7 @@
 export class CompleteRequest {
     taskId: number;
-    isComplete: boolean;
 
-    constructor(taskId: number, isComplete: boolean){
+    constructor(taskId: number){
         this.taskId = taskId;
-        this.isComplete = isComplete;
     }
 }

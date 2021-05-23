@@ -7,7 +7,7 @@ export class Task {
     taskDescription: string;
     currentProject: Project;
     projectId: number;
-    isComplete: boolean;
+    isCompleted: boolean;
     taskeeId: number;
     taskeeAccount: Account;
     dueDate: Date;

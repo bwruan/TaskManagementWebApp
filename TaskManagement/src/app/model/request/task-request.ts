@@ -4,15 +4,15 @@ export class TaskRequest{
     taskDescription: string;
     projectId: number;
     taskeeId: number;
-    isComplete: boolean;
+    isCompleted: boolean;
 
     constructor(taskId: number, taskName: string, taskDescription: string, projectId: number, 
-        taskeeId: number, isComplete: boolean){
+        taskeeId: number, isCompleted: boolean){
             this.taskId = taskId;
             this.taskName = taskName;
             this.taskDescription = taskDescription;
             this.projectId = projectId;
             this.taskeeId = taskeeId;
-            this.isComplete = isComplete;
+            this.isCompleted = isCompleted;
     }
 }

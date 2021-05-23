@@ -15,6 +15,7 @@ export class TaskComponent implements OnInit {
   taskModalState: boolean;
   tasks: Task[];
   taskObj: Task = new Task();
+  successMessage: boolean;
   
   constructor(private taskService: TaskService, private route: ActivatedRoute) { }
 
@@ -42,7 +43,7 @@ export class TaskComponent implements OnInit {
       this.taskObj.dueDate = res.dueDate;
       this.taskObj.completedDate = res.completedDate;
       this.taskObj.taskId = res.taskId;
-      this.taskObj.isComplete = res.isComplete;
+      this.taskObj.isCompleted = res.isCompleted;
     }, err => {
       console.log("unable to grab task info");
     });
@@ -50,19 +51,21 @@ export class TaskComponent implements OnInit {
 
   closeModal(): void{
     this.taskModalState = false;
+    this.showMessage = undefined;
   }
 
-  markComplete(): void{
-    this.taskService.markComplete(new CompleteRequest(this.taskObj.taskId, this.taskObj.isComplete))
+  markComplete(){
+    this.taskService.markComplete(new CompleteRequest(this.taskObj.taskId))
     .subscribe(res => {
-      console.log("Task completed");
-      this.closeModal();      
+      console.log(this.taskObj);
+      this.taskObj.isCompleted = true;
+      this.taskObj.completedDate = res.completedDate;
+      this.successMessage = true;
+      this.showMessage = "Task completed";
     }, err => {
-      console.log(err.error());
+      console.log("Task Complete Error");
+      this.successMessage = false;
+      this.showMessage = err.error;
     });
-  }
-
-  taskCompleted(): boolean{
-    return this.taskObj.isComplete;
   }
 }
