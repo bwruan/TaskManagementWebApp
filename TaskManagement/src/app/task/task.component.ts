@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Account } from '../model/account';
 import { CompleteRequest } from '../model/request/complete-request';
@@ -57,11 +57,16 @@ export class TaskComponent implements OnInit {
   markComplete(){
     this.taskService.markComplete(new CompleteRequest(this.taskObj.taskId))
     .subscribe(res => {
-      console.log(this.taskObj);
       this.taskObj.isCompleted = true;
       this.taskObj.completedDate = res.completedDate;
       this.successMessage = true;
       this.showMessage = "Task completed";
+
+      for(let i = 0; i < this.tasks.length; i++){
+        if(this.tasks[i].taskId == this.taskObj.taskId){
+          this.tasks[i].isCompleted = this.taskObj.isCompleted;
+        }
+      }
     }, err => {
       console.log("Task Complete Error");
       this.successMessage = false;
