@@ -44,7 +44,7 @@ export class LogInComponent implements OnInit {
   }
 
   loginSubmit(){
-    console.log(this,this.loginObj);
+    console.log(this.loginObj);
     this.userService.logIn(new LoginRequest(this.loginObj.email, this.loginObj.password))
     .subscribe(res => {
       console.log(res);

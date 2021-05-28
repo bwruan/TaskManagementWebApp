@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {DpDatePickerModule} from 'ng2-date-picker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +14,9 @@ import { UpdateAccountComponent } from './update-account/update-account.componen
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ProjectComponent } from './project/project.component';
 import { ProjectPageComponent } from './project/project-page/project-page.component';
+import { TaskComponent } from './task/task.component';
+import { ProjectService } from './service/project-service';
+import { TaskService } from './service/task-service';
 
 @NgModule({
   declarations: [
@@ -23,15 +27,17 @@ import { ProjectPageComponent } from './project/project-page/project-page.compon
     UpdateAccountComponent,
     NotFoundComponent,
     ProjectComponent,
-    ProjectPageComponent
+    ProjectPageComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DpDatePickerModule
   ],
-  providers: [UserService],
+  providers: [UserService, ProjectService, TaskService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

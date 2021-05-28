@@ -54,12 +54,10 @@ export class UpdateAccountComponent implements OnInit {
     this.userService.updateAccount(new AccountInfoRequest(this.updateAccountObj.id, this.updateAccountObj.firstName + " " + this.updateAccountObj.lastName, this.updateAccountObj.email,
       Number(this.updateAccountObj.roleId), null))
       .subscribe(res => {
-        console.log("Happy path");
         console.log(res);
         this.successMessage = true;
         this.showMessage = "Account updated!";
       }, err => {
-        console.log("Error path");
         console.log(err);
         this.successMessage = false;
         this.showMessage = err.error;

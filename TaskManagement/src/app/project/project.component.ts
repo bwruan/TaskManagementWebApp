@@ -19,7 +19,6 @@ export class ProjectComponent implements OnInit {
   ngOnInit(): void {
     this.uToPService.getProjectsByAccountId()
     .subscribe(res => {
-      console.log("Grabbing proj");
       this.projects = res;
     }, err => {
       console.log("error");
@@ -28,7 +27,6 @@ export class ProjectComponent implements OnInit {
   }
 
   onSelect(projectId): void {
-    console.log(projectId);
     this.router.navigate(['/projects', projectId]);
   }
 }
