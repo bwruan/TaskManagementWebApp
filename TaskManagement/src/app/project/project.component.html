@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <label for="inputDescription" class="col-form-label">Project Description</label>
                         <div>
-                            <textarea class="form-control" id="inputDescription" name="projDescription" [(ngModel)]="addProjectForm.password" rows="3" required></textarea>
+                            <textarea class="form-control" id="inputDescription" name="projDescription" [(ngModel)]="projObj.projectDescription" rows="3" required></textarea>
                             <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['projDescription'] !== undefined && addProjectForm.controls['projDescription'].invalid && (addProjectForm.controls['projDescription'].dirty || addProjectForm.controls['projDescription'].touched) && addProjectForm.controls['projDescription'].errors" class="alert">
                                 Project Description required.
                             </span>
@@ -57,7 +57,7 @@
                         <div class="form-group col-6">
                             <label for="inputStart" class="col-form-label">Start Date</label>
                             <div>
-                                <input type="date" class="form-control" id="inputStart" name="startDate" [(ngModel)]="addProjectForm.startDate" required>
+                                <input type="date" class="form-control" id="inputStart" name="startDate" [(ngModel)]="projObj.startDate" required>
                                 <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['startDate'] !== undefined && addProjectForm.controls['startDate'].invalid && (addProjectForm.controls['startDate'].dirty || addProjectForm.controls['startDate'].touched) && addProjectForm.controls['startDate'].errors" class="alert">
                                 Please select start date.
                                 </span>
@@ -66,7 +66,7 @@
                         <div class="form-group col-6">
                             <label for="inputEnd" class="col-form-label">End Date</label>
                             <div>
-                                <input type="date" class="form-control" id="inputEnd" name="endDate" [(ngModel)]="addProjectForm.endDate" required>
+                                <input type="date" class="form-control" id="inputEnd" name="endDate" [(ngModel)]="projObj.endDate" required>
                                 <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['endDate'] !== undefined && addProjectForm.controls['endDate'].invalid && (addProjectForm.controls['endDate'].dirty || addProjectForm.controls['endDate'].touched) && addProjectForm.controls['endDate'].errors" class="alert">
                                     Please select end date.
                                 </span>
@@ -76,13 +76,13 @@
                     <div class="form-group">
                         <label for="inputOwner" class="col-form-label">Owner</label>
                         <div>
-                            <input type="text" class="form-control" id="inputOwner" name="ownerAccount" [(ngModel)]="addProjectForm.ownerAccount" placeholder="Becky Ruan" disabled>
+                            <input type="text" class="form-control" id="inputOwner" name="ownerAccount" [(ngModel)]="projObj.ownerAccount.name" placeholder="Becky Ruan" disabled>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-                    <button type="button" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-primary" [disabled]="addProjectForm.form.invalid" (click)="createProject()">Add</button>
                 </div>
             </div>
         </div>

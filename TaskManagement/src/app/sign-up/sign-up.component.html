@@ -65,7 +65,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" [disabled]="signUpForm.form.invalid">Sign Up</button>
+                <button type="submit" class="btn btn-primary" [disabled]="signUpForm.form.invalid" (click)="signUpSumbit()">Sign Up</button>
                 <button type="button" class="btn btn-secondary" (click)="closeSignUpModal(); signUpForm.reset()">Cancel</button>
               </div>
             </div>

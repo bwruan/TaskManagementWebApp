@@ -50,11 +50,28 @@ export class ProjectComponent implements OnInit {
   }
 
   createProject(){
-    this.projectService.createProject(new ProjectRequest(this.projObj.projectId, this.projObj.projectName, this.projObj.projectDescription, this.projObj.ownerAccount.id))
+    this.projObj.accountId = Number(localStorage.getItem("accountId"));
+
+    this.projectService.createProject(new ProjectRequest(this.projObj.projectName, this.projObj.projectDescription, this.projObj.accountId, this.projObj.startDate, this.projObj.endDate))
     .subscribe(res => {
+      console.log(res);
+      this.showMessage = undefined;
+      this.projects.push(this.projObj);
 
+      for(let i = 0; i < this.projects.length; i++){
+        if(this.projects[i].projectId == this.projObj.projectId){
+          this.projects[i].projectName = this.projObj.projectName;
+          this.projects[i].projectDescription = this.projObj.projectDescription;
+          this.projects[i].startDate = this.projObj.startDate;
+          this.projects[i].endDate = this.projObj.endDate;
+          this.projects[i].ownerAccount = this.projObj.ownerAccount;
+        }
+      }
+
+      this.closeModal();
     }, err => {
-
+      console.log(err);
+      this.showMessage = err.error;
     });
   }
 }
