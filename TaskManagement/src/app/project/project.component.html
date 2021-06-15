@@ -20,3 +20,71 @@
         </tbody>
     </table>
 </div>
+
+<div>
+    <button type="button" class="btn btn-primary" (click)="openModal()">Add Project</button>
+</div>
+
+<form #addProjectForm = "ngForm">
+    <div [style.display] = "addProjModalState ? 'block': 'none'" style="opacity: 1;" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProjModalLabel">Add Project</h5>
+                    <button type="button" class="btn-close" (click)="closeModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf ="showMessage" [ngStyle]="errorMsgStyle">{{showMessage}}</div>
+                    <div class="form-group">
+                        <label for="inputName" class="col-form-label">Project Name</label>
+                        <div>
+                            <input type="text" class="form-control" id="inputName" name="projName" [(ngModel)]="projObj.projectName" required>
+                            <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['projName'] !== undefined && addProjectForm.controls['projName'].invalid && (addProjectForm.controls['projName'].dirty || addProjectForm.controls['projName'].touched) && addProjectForm.controls['projName'].errors" class="alert">
+                                Project Name required.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription" class="col-form-label">Project Description</label>
+                        <div>
+                            <textarea class="form-control" id="inputDescription" name="projDescription" [(ngModel)]="projObj.projectDescription" rows="3" required></textarea>
+                            <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['projDescription'] !== undefined && addProjectForm.controls['projDescription'].invalid && (addProjectForm.controls['projDescription'].dirty || addProjectForm.controls['projDescription'].touched) && addProjectForm.controls['projDescription'].errors" class="alert">
+                                Project Description required.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="inputStart" class="col-form-label">Start Date</label>
+                            <div>
+                                <input type="date" class="form-control" id="inputStart" name="startDate" [(ngModel)]="projObj.startDate" required>
+                                <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['startDate'] !== undefined && addProjectForm.controls['startDate'].invalid && (addProjectForm.controls['startDate'].dirty || addProjectForm.controls['startDate'].touched) && addProjectForm.controls['startDate'].errors" class="alert">
+                                Please select start date.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="inputEnd" class="col-form-label">End Date</label>
+                            <div>
+                                <input type="date" class="form-control" id="inputEnd" name="endDate" [(ngModel)]="projObj.endDate" required>
+                                <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['endDate'] !== undefined && addProjectForm.controls['endDate'].invalid && (addProjectForm.controls['endDate'].dirty || addProjectForm.controls['endDate'].touched) && addProjectForm.controls['endDate'].errors" class="alert">
+                                    Please select end date.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputOwner" class="col-form-label">Owner</label>
+                        <div>
+                            <input type="text" class="form-control" id="inputOwner" name="ownerAccount" [(ngModel)]="projObj.ownerAccount.name" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                    <button type="button" class="btn btn-primary" [disabled]="addProjectForm.form.invalid" (click)="createProject()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -27,7 +27,7 @@ export class UpdateAccountComponent implements OnInit {
   constructor(private userService: UserService, private roleService: RoleService) { }
 
   ngOnInit(): void {
-    this.userService.getAccount()
+    this.userService.getAccountByEmail()
     .subscribe(res => {
       let nameArray = res.name.split(" ");
 
