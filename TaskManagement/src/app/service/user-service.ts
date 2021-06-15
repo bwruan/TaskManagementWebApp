@@ -52,7 +52,7 @@ export class UserService {
         return this._http.patch(this.baseUrl + "/account/password", passwordObj, {headers: header});
     }
 
-    getAccount(): Observable<Account>{
+    getAccountByEmail(): Observable<Account>{
         let token = localStorage.getItem("token");
         let header = new HttpHeaders({
             "Authorization": "Bearer "+ token
@@ -60,5 +60,15 @@ export class UserService {
 
         let email = localStorage.getItem("email");
         return this._http.get<Account>(this.baseUrl + "/account?email=" + email, {headers: header});
+    }
+
+    getAccountById(): Observable<Account>{
+        let token = localStorage.getItem("token");
+        let header = new HttpHeaders({
+            "Authorization": "Bearer "+ token
+        });
+
+        let id = localStorage.getItem("accountId");
+        return this._http.get<Account>(this.baseUrl + "/account/" + id, {headers: header});
     }
 }

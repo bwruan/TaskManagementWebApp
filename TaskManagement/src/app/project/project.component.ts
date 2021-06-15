@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Account } from '../model/account';
 import { Project } from '../model/project';
 import { ProjectRequest } from '../model/request/project-request';
 import { ProjectService } from '../service/project-service';
+import { UserService } from '../service/user-service';
 import { UserToProjectService } from '../service/user-to-project-service';
 
 @Component({
@@ -24,12 +26,22 @@ export class ProjectComponent implements OnInit {
     fontSize: "10"
   };
 
-  constructor(private projectService: ProjectService, private uToPService: UserToProjectService, private router: Router) { }
+  constructor(private projectService: ProjectService, private uToPService: UserToProjectService, private userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
+    this.projObj.ownerAccount = new Account();
+
     this.uToPService.getProjectsByAccountId()
     .subscribe(res => {
       this.projects = res;
+
+      this.userService.getAccountById()
+      .subscribe(res => {
+        this.projObj.accountId = res.id;
+        this.projObj.ownerAccount.name = res.name;
+      }, err => {
+        this.showMessage = err.error; 
+      });
     }, err => {
       console.log("error");
       this.showMessage = "Unable to grab projects.";
@@ -54,19 +66,19 @@ export class ProjectComponent implements OnInit {
 
     this.projectService.createProject(new ProjectRequest(this.projObj.projectName, this.projObj.projectDescription, this.projObj.accountId, this.projObj.startDate, this.projObj.endDate))
     .subscribe(res => {
-      console.log(res);
       this.showMessage = undefined;
-      this.projects.push(this.projObj);
+      
+      let newProj = new Project();
+      newProj.projectId = res.projectId;
+      newProj.projectName = this.projObj.projectName;
+      newProj.projectDescription = this.projObj.projectDescription;
+      newProj.startDate = this.projObj.startDate;
+      newProj.endDate = this.projObj.endDate;
+      newProj.accountId = this.projObj.accountId;
+      newProj.ownerAccount = new Account();
+      newProj.ownerAccount.name = this.projObj.ownerAccount.name;
 
-      for(let i = 0; i < this.projects.length; i++){
-        if(this.projects[i].projectId == this.projObj.projectId){
-          this.projects[i].projectName = this.projObj.projectName;
-          this.projects[i].projectDescription = this.projObj.projectDescription;
-          this.projects[i].startDate = this.projObj.startDate;
-          this.projects[i].endDate = this.projObj.endDate;
-          this.projects[i].ownerAccount = this.projObj.ownerAccount;
-        }
-      }
+      this.projects.push(newProj);
 
       this.closeModal();
     }, err => {
