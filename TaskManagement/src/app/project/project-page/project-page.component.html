@@ -46,6 +46,39 @@
     </table>
 </div>
 
+<div>
+    <button type="button" class="btn btn-primary" (click)="openModal()">Add Member</button>
+</div>
+
+<form #addMemberForm = "ngForm">
+    <div [style.display] = "addMemberModalState ? 'block': 'none'" style="opacity: 1;" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMemberModalLabel">Add a Member</h5>
+                    <button type="button" class="btn-close" (click)="closeModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf ="showMessage" [ngStyle]="errorMsgStyle">{{showMessage}}</div>
+                    <div class="form-group">
+                        <label for="emailAddress" class="col-form-label">Email Address</label>
+                        <div>
+                            <input type="email" class="form-control" id="emailAddress" name="email" [(ngModel)]="memberObj.email" required>
+                            <span [ngStyle]="errorMsgStyle" *ngIf="addMemberForm.controls['email'] !== undefined && addMemberForm.controls['email'].invalid && (addMemberForm.controls['email'].dirty || addMemberForm.controls['email'].touched) && addMemberForm.controls['email'].errors" class="alert">
+                                Provide an email address.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                    <button type="button" class="btn btn-primary" [disabled]="addMemberForm.form.invalid" (click)="addMember()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 <div class="row">
     <p></p>
     <p></p>

@@ -11,4 +11,5 @@ export class Account{
     roleId: number;
     profilePic: any;
     status: boolean;
+    roleName: string;
 }
