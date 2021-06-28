@@ -16,6 +16,7 @@ export class TaskComponent implements OnInit {
   tasks: Task[];
   taskObj: Task = new Task();
   successMessage: boolean;
+  addTaskModalState: boolean;
   
   constructor(private taskService: TaskService, private route: ActivatedRoute) { }
 
@@ -72,5 +73,13 @@ export class TaskComponent implements OnInit {
       this.successMessage = false;
       this.showMessage = err.error;
     });
+  }
+
+  openAddModal(): void{
+    this.addTaskModalState = true;
+  }
+
+  closeAddModal(): void{
+    this.addTaskModalState = false;
   }
 }
