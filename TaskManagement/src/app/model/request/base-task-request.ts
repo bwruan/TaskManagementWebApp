@@ -1,4 +1,4 @@
-export class CompleteRequest {
+export class BaseTaskRequest {
     taskId: number;
 
     constructor(taskId: number){
