@@ -69,7 +69,7 @@ export class ProjectComponent implements OnInit {
       this.showMessage = undefined;
       
       let newProj = new Project();
-      newProj.projectId = res.projectId;
+      newProj.projectId = res.projectId
       newProj.projectName = this.projObj.projectName;
       newProj.projectDescription = this.projObj.projectDescription;
       newProj.startDate = this.projObj.startDate;

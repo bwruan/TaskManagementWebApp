@@ -8,16 +8,30 @@
                 <th scope="col">Assigned To</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Status</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            <tr (click)="openModal(task.taskId)" *ngFor="let task of tasks" value="{{task.projectId}}">
+            <tr *ngFor="let task of tasks" value="{{task.projectId}}">
                 <th scope="row">{{task.taskName}}</th>
                 <td>{{task.taskDescription}}</td>
                 <td>{{task.taskeeAccount.name}}</td>
                 <td>{{task.dueDate | date: 'shortDate'}}</td>
                 <td *ngIf="task.isCompleted">Completed</td>
                 <td *ngIf="!task.isCompleted">Not Completed</td>
+                <td>
+                    <button type="button" class="btn btn-primary" (click)="openModal(task.taskId)" style="margin-right: 10px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                          </svg>
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="deleteTask()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                      </svg>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -70,7 +84,7 @@
                     <div class="form-group">
                         <label for="taskName" class="col-form-label">Task Name</label>
                         <div>
-                            <input type="text" class="form-control" id="taskName" name="taskName" required>
+                            <input type="text" class="form-control" id="taskName" name="taskName" [(ngModel)]="taskObj.taskName" required>
                             <span [ngStyle]="errorMsgStyle" *ngIf="addTaskForm.controls['taskName'] !== undefined && addTaskForm.controls['taskName'].invalid && (addTaskForm.controls['taskName'].dirty || addTaskForm.controls['taskName'].touched) && addTaskForm.controls['taskName'].errors" class="alert">
                                 Task Name required.
                             </span>
@@ -79,31 +93,35 @@
                     <div class="form-group">
                         <label for="taskDescription" class="col-form-label">Task Description</label>
                         <div>
-                            <textarea class="form-control" id="taskDescription" name="taskDescription" rows="3" required></textarea>
-                            <span [ngStyle]="errorMsgStyle" *ngIf="addTaskForm.controls['projDescription'] !== undefined && addTaskForm.controls['projDescription'].invalid && (addTaskForm.controls['projDescription'].dirty || addTaskForm.controls['projDescription'].touched) && addTaskForm.controls['projDescription'].errors" class="alert">
+                            <textarea class="form-control" id="taskDescription" name="taskDescription" rows="3" [(ngModel)]="taskObj.taskDescription" required></textarea>
+                            <span [ngStyle]="errorMsgStyle" *ngIf="addTaskForm.controls['taskDescription'] !== undefined && addTaskForm.controls['taskDescription'].invalid && (addTaskForm.controls['taskDescription'].dirty || addTaskForm.controls['taskDescription'].touched) && addTaskForm.controls['taskDescription'].errors" class="alert">
                                 Task Description required.
                             </span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="dueDate" class="col-form-label">Due Date</label>
-                        <div>
-                            <input type="date" class="form-control" id="dueDate" name="dueDate" required>
-                            <span [ngStyle]="errorMsgStyle" *ngIf="addTaskForm.controls['dueDate'] !== undefined && addTaskForm.controls['dueDate'].invalid && (addTaskForm.controls['dueDate'].dirty || addTaskForm.controls['dueDate'].touched) && addTaskForm.controls['dueDate'].errors" class="alert">
-                                Please select due date.
-                            </span>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="taskName" class="col-form-label">Task To</label>
+                            <div>
+                                <select class="form-select" id="taskeeId" name="taskeeId" [(ngModel)]="taskObj.taskeeAccount.id" required>
+                                    <option *ngFor="let account of accounts" value={{account.id}}>{{account.name}}</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputOwner" class="col-form-label">Owner</label>
-                        <div>
-                            <input type="text" class="form-control" id="inputOwner" name="ownerAccount" placeholder="Becky Ruan" disabled>
+                        <div class="form-group col-6">
+                            <label for="dueDate" class="col-form-label">Due Date</label>
+                            <div>
+                                <input type="date" class="form-control" id="dueDate" name="dueDate" [(ngModel)]="taskObj.dueDate" required>
+                                <span [ngStyle]="errorMsgStyle" *ngIf="addTaskForm.controls['dueDate'] !== undefined && addTaskForm.controls['dueDate'].invalid && (addTaskForm.controls['dueDate'].dirty || addTaskForm.controls['dueDate'].touched) && addTaskForm.controls['dueDate'].errors" class="alert">
+                                    Please select due date.
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" (click)="closeAddModal()">Close</button>
-                    <button type="button" class="btn btn-primary" [disabled]="addTaskForm.form.invalid">Add</button>
+                    <button type="button" class="btn btn-primary" [disabled]="addTaskForm.form.invalid" (click)= "addTask()">Add</button>
                 </div>
             </div>
         </div>

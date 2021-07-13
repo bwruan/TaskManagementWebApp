@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Account } from '../model/account';
-import { CompleteRequest } from '../model/request/complete-request';
+import { BaseTaskRequest } from '../model/request/base-task-request';
+import { TaskRequest } from '../model/request/task-request';
 import { Task } from '../model/task';
 import { TaskService } from '../service/task-service';
+import { UserToProjectService } from '../service/user-to-project-service';
 
 @Component({
   selector: 'app-task',
@@ -11,14 +13,22 @@ import { TaskService } from '../service/task-service';
   styleUrls: ['./task.component.css']
 })
 export class TaskComponent implements OnInit {
+  @ViewChild('addTaskForm') addTaskForm;
+  
   showMessage: any;
   taskModalState: boolean;
   tasks: Task[];
   taskObj: Task = new Task();
   successMessage: boolean;
   addTaskModalState: boolean;
+  errorMsgStyle: any = {
+    color: "red",
+    fontStyle: "italic",
+    fontSize: "10"
+  };
+  accounts: Account[];
   
-  constructor(private taskService: TaskService, private route: ActivatedRoute) { }
+  constructor(private taskService: TaskService, private route: ActivatedRoute, private uToPService: UserToProjectService) { }
 
   ngOnInit(): void {
     let projectId = parseInt(this.route.snapshot.paramMap.get('id'));
@@ -56,7 +66,7 @@ export class TaskComponent implements OnInit {
   }
 
   markComplete(){
-    this.taskService.markComplete(new CompleteRequest(this.taskObj.taskId))
+    this.taskService.markComplete(new BaseTaskRequest(this.taskObj.taskId))
     .subscribe(res => {
       this.taskObj.isCompleted = true;
       this.taskObj.completedDate = res.completedDate;
@@ -77,9 +87,74 @@ export class TaskComponent implements OnInit {
 
   openAddModal(): void{
     this.addTaskModalState = true;
+    let projectId = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.taskObj.projectId = projectId;
+    this.uToPService.getAccountByProjectId(projectId)
+        .subscribe(res => {
+          this.accounts = res;
+
+          let defaultAccount = new Account();
+          defaultAccount.id = 0;
+          defaultAccount.name = "Choose Member";
+          this.accounts.unshift(defaultAccount);
+
+          this.taskObj.taskeeAccount.id = 0;
+        }, err => {
+          this.showMessage = "Unable to get accounts";
+        });
   }
 
   closeAddModal(): void{
     this.addTaskModalState = false;
+    this.addTaskForm.reset();
+
+  }
+
+  addTask(){
+    this.taskObj.taskeeId = Number(this.taskObj.taskeeAccount.id);
+
+    this.taskService.createTask(new TaskRequest(this.taskObj.taskId, this.taskObj.taskName, this.taskObj.taskDescription, this.taskObj.projectId, 
+      this.taskObj.taskeeId, this.taskObj.dueDate))
+        .subscribe(res => {
+          this.showMessage = undefined;
+
+          let newTask = new Task();
+          newTask.taskId = res.taskId;
+          newTask.taskName = this.taskObj.taskName;
+          newTask.taskDescription = this.taskObj.taskDescription;
+          newTask.projectId = this.taskObj.projectId;
+          newTask.dueDate = this.taskObj.dueDate;   
+          newTask.taskeeId = this.taskObj.taskeeId;
+          newTask.taskeeAccount = new Account();
+          newTask.taskeeAccount.id = this.taskObj.taskeeId;
+          newTask.taskeeAccount.name = res.taskeeAccount.name;
+
+          console.log(newTask.taskeeAccount);
+
+          this.tasks.push(newTask);      
+
+          this.closeAddModal();
+        }, err => {
+          console.log(err);
+          this.showMessage = err.error;
+        });
+  }
+
+  deleteTask(){
+    this.taskService.deleteTask(new BaseTaskRequest(this.taskObj.taskId))
+    .subscribe(res => {
+      let index = -1;
+      for(let i = 0; i < this.tasks.length; i++){
+        if(this.tasks[i].taskId == this.taskObj.taskId){
+          index = i;
+          break;
+        }
+      }
+
+      this.tasks.splice(index);
+    }, err => {
+      console.log(err);
+          this.showMessage = err.error;
+    });
   }
 }
