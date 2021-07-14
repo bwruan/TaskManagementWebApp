@@ -129,8 +129,6 @@ export class TaskComponent implements OnInit {
           newTask.taskeeAccount.id = this.taskObj.taskeeId;
           newTask.taskeeAccount.name = res.taskeeAccount.name;
 
-          console.log(newTask.taskeeAccount);
-
           this.tasks.push(newTask);      
 
           this.closeAddModal();
@@ -140,8 +138,8 @@ export class TaskComponent implements OnInit {
         });
   }
 
-  deleteTask(){
-    this.taskService.deleteTask(new BaseTaskRequest(this.taskObj.taskId))
+  deleteTask(taskId){
+    this.taskService.deleteTask(taskId)
     .subscribe(res => {
       let index = -1;
       for(let i = 0; i < this.tasks.length; i++){
