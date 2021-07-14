@@ -42,21 +42,21 @@ export class TaskService {
         return this._http.patch(this.baseUrl + "/task/complete", taskObj, {headers: header});
     }
 
-    createTask(addTaskObj: TaskRequest): Observable<any>{
+    createTask(taskObj: TaskRequest): Observable<any>{
         let token = localStorage.getItem("token");
         let header = new HttpHeaders({
             "Authorization": "Bearer "+ token
         });
 
-        return this._http.post(this.baseUrl + "/task/create", addTaskObj, {headers: header});
+        return this._http.post(this.baseUrl + "/task/create", taskObj, {headers: header});
     }
 
-    deleteTask(taskObj: BaseTaskRequest): Observable<any>{
+    deleteTask(taskId: number): Observable<any>{
         let token = localStorage.getItem("token");
         let header = new HttpHeaders({
             "Authorization": "Bearer "+ token
         });
 
-        return this._http.delete(this.baseUrl + "/task/delete", {headers: header});
+        return this._http.delete(this.baseUrl + "/task/delete/" + taskId, {headers: header});
     }
 }
