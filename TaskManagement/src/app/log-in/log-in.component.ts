@@ -47,7 +47,6 @@ export class LogInComponent implements OnInit {
     console.log(this.loginObj);
     this.userService.logIn(new LoginRequest(this.loginObj.email, this.loginObj.password))
     .subscribe(res => {
-      console.log(res);
       this.showMessage = undefined;
 
       localStorage.setItem("token", res.token);

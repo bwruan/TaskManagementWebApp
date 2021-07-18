@@ -1,5 +1,4 @@
-import { stringify } from '@angular/compiler/src/util';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Account } from 'src/app/model/account';
 import { Project } from 'src/app/model/project';
@@ -73,8 +72,28 @@ export class ProjectPageComponent implements OnInit {
       this.accounts.push(memberAccount);
       this.closeModal();
     }, err => {
-      console.log("error");
-      this.showMessage = err.error;
+      console.log(err.error);
+    });
+  }
+
+  removeMember(accountId){
+    this.projectObj.projectId = parseInt(this.route.snapshot.paramMap.get('id'));
+    let projectId = Number(this.projectObj.projectId);
+    
+    this.uToPService.removeProjectMember(projectId, accountId)
+    .subscribe(res => {
+      let index = -1;
+
+      for(let i = 0; i < this.accounts.length; i++){
+        if(this.accounts[i].id == accountId){
+          index = i;
+          break;
+        }
+      }
+
+      this.accounts.splice(index);
+    }, err => {
+      console.log(err.error);
     });
   }
 }
