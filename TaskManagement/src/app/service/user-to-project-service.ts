@@ -42,4 +42,13 @@ export class UserToProjectService {
 
         return this._http.patch<Account>(this.baseUrl + "/usertoproject/addMember", memberObj, {headers: header});
     }
+
+    removeProjectMember(projectId: number, accountId: number): Observable<any>{
+        let token = localStorage.getItem("token");
+        let header = new HttpHeaders({
+            "Authorization": "Bearer "+ token
+        });
+
+        return this._http.delete(this.baseUrl + "/usertoproject/delete/" + projectId + "/" + accountId, {headers: header});
+    }
 }
