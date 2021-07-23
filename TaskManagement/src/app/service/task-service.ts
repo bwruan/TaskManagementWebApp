@@ -59,4 +59,13 @@ export class TaskService {
 
         return this._http.delete(this.baseUrl + "/task/delete/" + taskId, {headers: header});
     }
+
+    deleteAllTaskFromProject(projectId: number): Observable<any>{
+        let token = localStorage.getItem("token");
+        let header = new HttpHeaders({
+            "Authorization": "Bearer "+ token
+        });
+
+        return this._http.delete(this.baseUrl + "/task/delete/all/" + projectId, {headers: header});
+    }
 }

@@ -143,7 +143,7 @@ export class TaskComponent implements OnInit {
     .subscribe(res => {
       let index = -1;
       for(let i = 0; i < this.tasks.length; i++){
-        if(this.tasks[i].taskId == this.taskObj.taskId){
+        if(this.tasks[i].taskId == taskId){
           index = i;
           break;
         }
