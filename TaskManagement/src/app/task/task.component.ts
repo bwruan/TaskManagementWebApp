@@ -2,8 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Account } from '../model/account';
 import { BaseTaskRequest } from '../model/request/base-task-request';
+import { CommentRequest } from '../model/request/comment-request';
 import { TaskRequest } from '../model/request/task-request';
 import { Task } from '../model/task';
+import { TaskComment } from '../model/task-comment';
+import { TaskCommentService } from '../service/task-comment-service';
 import { TaskService } from '../service/task-service';
 import { UserToProjectService } from '../service/user-to-project-service';
 
@@ -14,6 +17,7 @@ import { UserToProjectService } from '../service/user-to-project-service';
 })
 export class TaskComponent implements OnInit {
   @ViewChild('addTaskForm') addTaskForm;
+  @ViewChild('addCommentForm') addCommentForm;
   
   showMessage: any;
   taskModalState: boolean;
@@ -27,8 +31,10 @@ export class TaskComponent implements OnInit {
     fontSize: "10"
   };
   accounts: Account[];
-  
-  constructor(private taskService: TaskService, private route: ActivatedRoute, private uToPService: UserToProjectService) { }
+  addCommentModalState: boolean;
+  commentObj: TaskComment = new TaskComment();
+
+  constructor(private taskService: TaskService, private route: ActivatedRoute, private uToPService: UserToProjectService, private commentService: TaskCommentService) { }
 
   ngOnInit(): void {
     let projectId = parseInt(this.route.snapshot.paramMap.get('id'));
@@ -107,7 +113,6 @@ export class TaskComponent implements OnInit {
   closeAddModal(): void{
     this.addTaskModalState = false;
     this.addTaskForm.reset();
-
   }
 
   addTask(){
@@ -154,5 +159,36 @@ export class TaskComponent implements OnInit {
       console.log(err);
           this.showMessage = err.error;
     });
+  }
+
+  openCommentModal(taskId): void{
+    this.addCommentModalState = true;
+    console.log(taskId);
+    this.commentObj.taskId = Number(taskId);
+  }
+
+  closeCommentModal(): void{
+    this.addCommentModalState = false;
+    this.addCommentForm.reset();
+  }
+
+  addComment(){
+    this.commentObj.commenterId = Number(localStorage.getItem("accountId"));
+
+    this.commentService.createComment(new CommentRequest(this.commentObj.commentId, this.commentObj.comment, this.commentObj.taskId, this.commentObj.commenterId))
+    .subscribe(res => {
+      console.log(this.commentObj);
+
+      let newComment = new TaskComment();
+      newComment.commentId = this.commentObj.commentId;
+      newComment.comment = this.commentObj.comment;
+      newComment.taskId = this.commentObj.taskId;
+      newComment.commenterId = this.commentObj.commenterId;
+
+      //push into comment table list
+      this.closeCommentModal();
+    }, err => {
+      console.log(err);
+    })
   }
 }
