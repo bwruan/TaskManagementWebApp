@@ -49,4 +49,13 @@ export class ProjectService {
 
         return this._http.patch(this.baseUrl + "/project/update", updateProjObj, {headers: header});
     }
+
+    deleteProject(projectId: number){
+        let token = localStorage.getItem("token");
+        let header = new HttpHeaders({
+            "Authorization": "Bearer "+ token
+        });
+
+        return this._http.delete(this.baseUrl + "/project/delete/" + projectId, {headers: header});
+    }
 }

@@ -86,4 +86,21 @@ export class ProjectComponent implements OnInit {
       this.showMessage = err.error;
     });
   }
+
+  deleteProject(projectId){
+    this.projectService.deleteProject(projectId)
+    .subscribe(res => {
+      let index = -1;
+      for(let i = 0; i < this.projects.length; i++){
+        if(this.projects[i].projectId == projectId){
+          index = i;
+          break;
+        }
+      }
+      this.projects.splice(index);
+    }, err => {
+      console.log(err);
+          this.showMessage = err.error;
+    });
+  }
 }
