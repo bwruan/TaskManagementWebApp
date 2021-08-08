@@ -33,6 +33,10 @@ export class TaskComponent implements OnInit {
   accounts: Account[];
   addCommentModalState: boolean;
   commentObj: TaskComment = new TaskComment();
+  comments: TaskComment[];
+  page: number;
+  showButton: boolean;
+  count: number;
 
   constructor(private taskService: TaskService, private route: ActivatedRoute, private uToPService: UserToProjectService, private commentService: TaskCommentService) { }
 
@@ -165,6 +169,36 @@ export class TaskComponent implements OnInit {
     this.addCommentModalState = true;
     console.log(taskId);
     this.commentObj.taskId = Number(taskId);
+
+    this.page = 1;
+    this.showButton = false;
+
+    this.commentService.getCommentsByTaskId(taskId, this.page)
+    .subscribe(res => {
+      this.comments = res;
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  clickCount(): number{
+    this.count = 0;
+    return this.count++;
+  }
+
+  nextCommentPage(taskId):void{
+    taskId = Number(this.commentObj.taskId);
+    let i = Number(this.clickCount());
+    console.log(taskId, i);
+    this.page = i + 1;
+    this.showButton = true;
+
+    this.commentService.getCommentsByTaskId(taskId, this.page)
+    .subscribe(res => {
+      this.comments = res;
+    }, err => {
+      console.log(err);
+    })
   }
 
   closeCommentModal(): void{
@@ -185,7 +219,7 @@ export class TaskComponent implements OnInit {
       newComment.taskId = this.commentObj.taskId;
       newComment.commenterId = this.commentObj.commenterId;
 
-      //push into comment table list
+      this.comments.push(newComment);
       this.closeCommentModal();
     }, err => {
       console.log(err);
