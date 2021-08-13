@@ -14,13 +14,13 @@ export class TaskCommentService {
 
     constructor(private _http: HttpClient){}
 
-    createComment(commentObj: CommentRequest): Observable<any>{
+    createComment(commentObj: CommentRequest): Observable<number>{
         let token = localStorage.getItem("token");
         let header = new HttpHeaders({
             "Authorization": "Bearer "+ token
         });
 
-        return this._http.post(this.baseUrl + "/comment/create", commentObj, {headers: header});
+        return this._http.post<number>(this.baseUrl + "/comment/create", commentObj, {headers: header});
     }
 
     getCommentsByTaskId(taskId: number, page: number): Observable<TaskComment[]>{

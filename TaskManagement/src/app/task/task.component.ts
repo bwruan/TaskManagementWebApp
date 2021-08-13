@@ -369,13 +369,46 @@ export class TaskComponent implements OnInit {
 
     this.commentService.createComment(new CommentRequest(this.commentObj.commentId, this.commentObj.comment, this.commentObj.taskId, this.commentObj.commenterId))
     .subscribe(res => {
+      this.lastPage = res;
+
       let newComment = new TaskComment();
       newComment.commentId = this.commentObj.commentId;
       newComment.comment = this.commentObj.comment;
       newComment.taskId = this.commentObj.taskId;
       newComment.commenterId = this.commentObj.commenterId;
 
-      this.closeCommentModal();
+      this.commentService.getCommentsByTaskId(newComment.taskId, this.lastPage)
+      .subscribe(res => {
+        this.comments = res;
+        if(this.comments.length == 0 || this.page <= 1 && this.comments.length >=1 && this.lastPage <= 1){
+          this.showPrev = false;
+          this.showNext = false;
+          this.showFirst = false;
+          this.showLast = false;
+        }
+        if(this.page <= 1 && this.comments.length >= 1 && this.page != this.lastPage){
+          this.showPrev = false;
+          this.showFirst = false;
+          this.showNext = true;
+          this.showLast = true;
+        }
+        if(this.page == this.lastPage && this.lastPage > 1){
+          this.showPrev = true;
+          this.showFirst = true;
+          this.showNext = false;
+          this.showLast = false;
+        }
+        if(this.page > 1 && this.page < this.lastPage){
+          this.showPrev = true;
+          this.showFirst = true;
+          this.showNext = true;
+          this.showLast = true;
+        }
+
+        this.addCommentForm.reset();
+      }, err => {
+        console.log(err);
+      }) 
     }, err => {
       console.log(err);
     })
