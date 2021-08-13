@@ -142,6 +142,20 @@
                     <button type="button" class="btn-close" (click)="closeCommentModal()"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="panel panel-default">
+                        <ul class="list-group" *ngFor="let comment of comments" value="{{comment.commentId}}">
+                          <li class="list-group-item"><b>{{comment.commenter.name}}:</b> {{comment.comment}}</li>
+                        </ul>
+                        <p></p>
+                        <nav>
+                            <ul class="pagination pagination-sm">
+                                <li class="page-item"><a class="page-link" (click)="jumpToFirstPage(commentObj.taskId)" *ngIf="showFirst">First Page</a></li>
+                                <li class="page-item"><a class="page-link" (click)="prevCommentPage(commentObj.taskId)" *ngIf="showPrev">Previous</a></li>
+                                <li class="page-item"><a class="page-link" (click)="nextCommentPage(commentObj.taskId)" *ngIf="showNext">Next</a></li>
+                                <li class="page-item"><a class="page-link" (click)="jumpToLastPage(commentObj.taskId)" *ngIf="showLast">Last Page</a></li>
+                            </ul>
+                          </nav>
+                      </div>
                     <div class="form-group">
                         <label for="commentBox" class="col-form-label">Add a Comment</label>
                         <div>

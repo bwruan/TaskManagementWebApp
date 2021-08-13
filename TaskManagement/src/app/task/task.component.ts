@@ -33,6 +33,13 @@ export class TaskComponent implements OnInit {
   accounts: Account[];
   addCommentModalState: boolean;
   commentObj: TaskComment = new TaskComment();
+  comments: TaskComment[];
+  page: number;
+  lastPage: number;
+  showPrev: boolean;
+  showNext: boolean;
+  showFirst: boolean;
+  showLast: boolean;
 
   constructor(private taskService: TaskService, private route: ActivatedRoute, private uToPService: UserToProjectService, private commentService: TaskCommentService) { }
 
@@ -163,8 +170,193 @@ export class TaskComponent implements OnInit {
 
   openCommentModal(taskId): void{
     this.addCommentModalState = true;
-    console.log(taskId);
-    this.commentObj.taskId = Number(taskId);
+    this.commentObj.taskId = taskId;
+    this.page = 1;
+
+    this.commentService.getCommentsByTaskId(taskId, this.page)
+    .subscribe(res => {
+      this.comments = res;
+
+      this.commentService.getLastPageOfCommentsList(taskId)
+      .subscribe(res => {
+        this.lastPage = res;
+
+        if(this.comments.length == 0 || this.page <= 1 && this.comments.length >=1 && this.lastPage <= 1){
+          this.showPrev = false;
+          this.showNext = false;
+          this.showFirst = false;
+          this.showLast = false;
+        }
+        if(this.page <= 1 && this.comments.length >= 1 && this.page != this.lastPage){
+          this.showPrev = false;
+          this.showFirst = false;
+          this.showNext = true;
+          this.showLast = true;
+        }
+        if(this.page == this.lastPage && this.lastPage > 1){
+          this.showPrev = true;
+          this.showFirst = true;
+          this.showNext = false;
+          this.showLast = false;
+        }
+        if(this.page > 1 && this.page < this.lastPage){
+          this.showPrev = true;
+          this.showFirst = true;
+          this.showNext = true;
+          this.showLast = true;
+        }
+
+      },err => {
+        console.log(err);
+      })
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  prevCommentPage(taskId):void{
+    taskId = Number(this.commentObj.taskId);
+    this.page -= 1;
+
+    this.commentService.getCommentsByTaskId(taskId, this.page)
+    .subscribe(res => {
+      this.comments = res;
+      if(this.comments.length == 0 || this.page <= 1 && this.comments.length >=1 && this.lastPage <= 1){
+        this.showPrev = false;
+        this.showNext = false;
+        this.showFirst = false;
+        this.showLast = false;
+      }
+      if(this.page <= 1 && this.comments.length >= 1 && this.page != this.lastPage){
+        this.showPrev = false;
+        this.showFirst = false;
+        this.showNext = true;
+        this.showLast = true;
+      }
+      if(this.page == this.lastPage && this.lastPage > 1){
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showNext = false;
+        this.showLast = false;
+      }
+      if(this.page > 1 && this.page < this.lastPage){
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showNext = true;
+        this.showLast = true;
+      }
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  nextCommentPage(taskId):void{
+    taskId = Number(this.commentObj.taskId);    
+    this.page += 1;
+
+    this.commentService.getCommentsByTaskId(taskId, this.page)
+    .subscribe(res => {
+      this.comments = res;
+      if(this.comments.length == 0 || this.page <= 1 && this.comments.length >=1 && this.lastPage <= 1){
+        this.showPrev = false;
+        this.showNext = false;
+        this.showFirst = false;
+        this.showLast = false;
+      }
+      if(this.page <= 1 && this.comments.length >= 1 && this.page != this.lastPage){
+        this.showPrev = false;
+        this.showFirst = false;
+        this.showNext = true;
+        this.showLast = true;
+      }
+      if(this.page == this.lastPage && this.lastPage > 1){
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showNext = false;
+        this.showLast = false;
+      }
+      if(this.page > 1 && this.page < this.lastPage){
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showNext = true;
+        this.showLast = true;
+      }
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  jumpToFirstPage(taskId): void{
+    taskId = Number(this.commentObj.taskId);    
+    this.page = 1;
+
+    this.commentService.getCommentsByTaskId(taskId, this.page)
+    .subscribe(res => {
+      console.log(this.page);
+      this.comments = res;
+      if(this.comments.length == 0 || this.page <= 1 && this.comments.length >=1 && this.lastPage <= 1){
+        this.showPrev = false;
+        this.showNext = false;
+        this.showFirst = false;
+        this.showLast = false;
+      }
+      if(this.page <= 1 && this.comments.length >= 1 && this.page != this.lastPage){
+        this.showPrev = false;
+        this.showFirst = false;
+        this.showNext = true;
+        this.showLast = true;
+      }
+      if(this.page == this.lastPage && this.lastPage > 1){
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showNext = false;
+        this.showLast = false;
+      }
+      if(this.page > 1 && this.page < this.lastPage){
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showNext = true;
+        this.showLast = true;
+      }
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  jumpToLastPage(taskId): void{
+    taskId = Number(this.commentObj.taskId);    
+    this.page = Number(this.lastPage);
+
+    this.commentService.getCommentsByTaskId(taskId, this.page)
+    .subscribe(res => {
+      this.comments = res;
+      if(this.comments.length == 0 || this.page <= 1 && this.comments.length >=1 && this.lastPage <= 1){
+        this.showPrev = false;
+        this.showNext = false;
+        this.showFirst = false;
+        this.showLast = false;
+      }
+      if(this.page <= 1 && this.comments.length >= 1 && this.page != this.lastPage){
+        this.showPrev = false;
+        this.showFirst = false;
+        this.showNext = true;
+        this.showLast = true;
+      }
+      if(this.page == this.lastPage && this.lastPage > 1){
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showNext = false;
+        this.showLast = false;
+      }
+      if(this.page > 1 && this.page < this.lastPage){
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showNext = true;
+        this.showLast = true;
+      }
+    }, err => {
+      console.log(err);
+    })
   }
 
   closeCommentModal(): void{
@@ -177,7 +369,7 @@ export class TaskComponent implements OnInit {
 
     this.commentService.createComment(new CommentRequest(this.commentObj.commentId, this.commentObj.comment, this.commentObj.taskId, this.commentObj.commenterId))
     .subscribe(res => {
-      console.log(this.commentObj);
+      this.lastPage = res;
 
       let newComment = new TaskComment();
       newComment.commentId = this.commentObj.commentId;
@@ -185,8 +377,38 @@ export class TaskComponent implements OnInit {
       newComment.taskId = this.commentObj.taskId;
       newComment.commenterId = this.commentObj.commenterId;
 
-      //push into comment table list
-      this.closeCommentModal();
+      this.commentService.getCommentsByTaskId(newComment.taskId, this.lastPage)
+      .subscribe(res => {
+        this.comments = res;
+        if(this.comments.length == 0 || this.page <= 1 && this.comments.length >=1 && this.lastPage <= 1){
+          this.showPrev = false;
+          this.showNext = false;
+          this.showFirst = false;
+          this.showLast = false;
+        }
+        if(this.page <= 1 && this.comments.length >= 1 && this.page != this.lastPage){
+          this.showPrev = false;
+          this.showFirst = false;
+          this.showNext = true;
+          this.showLast = true;
+        }
+        if(this.page == this.lastPage && this.lastPage > 1){
+          this.showPrev = true;
+          this.showFirst = true;
+          this.showNext = false;
+          this.showLast = false;
+        }
+        if(this.page > 1 && this.page < this.lastPage){
+          this.showPrev = true;
+          this.showFirst = true;
+          this.showNext = true;
+          this.showLast = true;
+        }
+
+        this.addCommentForm.reset();
+      }, err => {
+        console.log(err);
+      }) 
     }, err => {
       console.log(err);
     })

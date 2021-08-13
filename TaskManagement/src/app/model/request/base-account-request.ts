@@ -12,6 +12,6 @@ export class BaseAccountRequest {
         this.email = email;
         this.password = password;
         this.roleId = roleId;
-        this.profilePic = profilePic;
+        this.profilePic = profilePic
     }
 }

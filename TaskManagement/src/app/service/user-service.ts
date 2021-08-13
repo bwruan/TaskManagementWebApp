@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, ObservableInput } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Account } from "../model/account";
 import { AccountInfoRequest } from "../model/request/account-info-request";
@@ -20,6 +20,12 @@ export class UserService {
     createAccount(newAccount: AccountRequest): Observable<any>{
         return this._http.post(this.baseUrl + "/account/create", newAccount);
     }
+
+    // uploadAccount(profilePicFile: File, accountId: number) : Observable<any>{
+    //     let formData = new FormData();
+    //     formData.append('file', profilePicFile);
+    //     return this._http.put(this.baseUrl/ + "pro")
+    // }
 
     logIn(loginObj: LoginRequest): Observable<any>{
         return this._http.patch(this.baseUrl + "/account/login", loginObj);
