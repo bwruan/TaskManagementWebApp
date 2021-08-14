@@ -7,54 +7,54 @@
                 <button type="button" class="btn-close" (click)="closeSignUpModal(); signUpForm.reset()"></button>
               </div>
               <div class="modal-body">
-                <div class="row mb-3">
-                    <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
-                    <div class="col-sm-10">
+                <div class="form-group">
+                    <label for="firstName" class="col-form-label">First Name</label>
+                    <div>
                         <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="createAccountObj.firstName" required>
                         <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['firstName'] !== undefined && signUpForm.controls['firstName'].invalid && (signUpForm.controls['firstName'].dirty || signUpForm.controls['firstName'].touched) && signUpForm.controls['firstName'].errors" class="alert">
                             First name needed.
                         </span>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
-                    <div class="col-sm-10">
+                <div class="form-group">
+                    <label for="lastName" class="col-form-label">Last Name</label>
+                    <div>
                         <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="createAccountObj.lastName" required>
                         <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['lastName'] !== undefined && signUpForm.controls['lastName'].invalid && (signUpForm.controls['lastName'].dirty || signUpForm.controls['lastName'].touched) && signUpForm.controls['lastName'].errors" class="alert">
                             Last name needed.
                         </span>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="email" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
+                <div class="form-group">
+                    <label for="email" class="col-form-label">Email</label>
+                    <div>
                         <input type="email" class="form-control" id="email" name="email" [(ngModel)]="createAccountObj.email" required>
                         <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['email']!== undefined && signUpForm.controls['email'].invalid && (signUpForm.controls['email'].dirty || signUpForm.controls['email'].touched) && signUpForm.controls['email'].errors" class="alert">
                             Please enter an email address.
                         </span>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="pas" class="col-sm-2 col-form-label">Password</label>
-                    <div class="col-sm-10">
+                <div class="form-group">
+                    <label for="pas" class="col-form-label">Password</label>
+                    <div>
                         <input type="password" class="form-control" id="pas" name="password" [(ngModel)]="createAccountObj.password" required>
                         <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['password'] !== undefined && signUpForm.controls['password'].invalid && (signUpForm.controls['password'].dirty || signUpForm.controls['password'].touched) && signUpForm.controls['password'].errors" class="alert">
                             Please enter a password.
                         </span>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="confirmPas" class="col-sm-2 col-form-label">Confirm Password</label>
-                    <div class="col-sm-10">
+                <div class="form-group">
+                    <label for="confirmPas" class="col-form-label">Confirm Password</label>
+                    <div>
                         <input type="password" class="form-control" id="confirmPas" name="confirmPass" [(ngModel)]="createAccountObj.confirmPassword" required>
                         <span [ngStyle]="errorMsgStyle" *ngIf="signUpForm.controls['confirmPass'] !== undefined && signUpForm.controls['confirmPass'].invalid && (signUpForm.controls['confirmPass'].dirty || signUpForm.controls['confirmPass'].touched) && signUpForm.controls['confirmPass'].errors" class="alert">
                             Please confirm password.
                         </span>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="role" class="col-sm-2 col-form-label">Role</label>
-                    <div class="col-sm-10">
+                <div class="form-group">
+                    <label for="role" class="col-form-label">Role</label>
+                    <div>
                         <select id="role" class="form-select" name="roleSelect" [(ngModel)]="createAccountObj.roleId" required>
                             <option *ngFor="let role of roles" value={{role.id}}>{{role.name}}</option>
                         </select>
@@ -63,9 +63,9 @@
                         </span>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="pfp" class="col-sm-2 col-form-label">Profile Picture</label>
-                    <div class="col-sm-10">
+                <div class="form-group">
+                    <label for="pfp" class="col-form-label">Profile Picture</label>
+                    <div>
                         <input type="file" class="form-control-file" id="pfp" name="profile" [(ngModel)]="createAccountObj.profilePic" (change)="uploadChange($event)">
                         <p [ngStyle]="errorMsgStyle" *ngIf="!isImage && signUpForm.controls['profile'] !== undefined && signUpForm.controls['profile'].value !== undefined">{{showMessage}}</p>
                     </div>

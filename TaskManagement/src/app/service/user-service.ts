@@ -21,11 +21,11 @@ export class UserService {
         return this._http.post(this.baseUrl + "/account/create", newAccount);
     }
 
-    // uploadAccount(profilePicFile: File, accountId: number) : Observable<any>{
-    //     let formData = new FormData();
-    //     formData.append('file', profilePicFile);
-    //     return this._http.put(this.baseUrl/ + "pro")
-    // }
+    uploadProfilePic(profilePicFile: File, accountId: number) : Observable<any>{
+        let formData = new FormData();
+        formData.append('file', profilePicFile);
+        return this._http.put(this.baseUrl + "/account/profilePic/" + accountId, formData);
+    }
 
     logIn(loginObj: LoginRequest): Observable<any>{
         return this._http.patch(this.baseUrl + "/account/login", loginObj);

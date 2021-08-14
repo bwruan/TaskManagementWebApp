@@ -4,6 +4,7 @@ import { AccountRequest } from '../model/request/account-request';
 import { Roles } from '../model/roles';
 import { RoleService } from '../service/role-service';
 import { UserService } from '../service/user-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -25,7 +26,7 @@ export class SignUpComponent implements OnInit {
   isImage: boolean;
   uploadedFile : File = null;
 
-  constructor(private userService: UserService, private roleService: RoleService) { }
+  constructor(private userService: UserService, private roleService: RoleService, private router: Router) { }
 
   ngOnInit(): void {
     this.roleService.getRoles()
@@ -58,20 +59,38 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    this.userService.createAccount(new AccountRequest(this.createAccountObj.id, this.createAccountObj.firstName + " " + this.createAccountObj.lastName, this.createAccountObj.email, 
-    this.createAccountObj.password, this.createAccountObj.roleId, null))
-        .subscribe(res => {
-          console.log(res);
-          if (this.uploadedFile != null){
-            var id = res.id;
-            //make call to upload photo
-          }else{
-            this.showMessage = undefined;
-          }
-        }, err => {
+    let accountRequest = new AccountRequest(this.createAccountObj.id, this.createAccountObj.firstName + " " + this.createAccountObj.lastName, this.createAccountObj.email, this.createAccountObj.password, Number(this.createAccountObj.roleId), null);
+    if (this.uploadedFile != null){
+      var fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(this.uploadedFile);
+
+      fileReader.onloadend = (e) => {
+        if (e.target.readyState == FileReader.DONE) {
+          let arrayBuffer = e.target.result as ArrayBuffer;
+          let uintArray = new Uint8Array(arrayBuffer);       
+          accountRequest.profilePic = (btoa(String.fromCharCode.apply(null, uintArray)))
+          this.userService.createAccount(accountRequest)
+            .subscribe(res => {
+              this.showMessage = undefined;
+              location.reload();
+            },
+            err=>{
+              console.log(err);
+              this.showMessage = err.error;
+            });
+       }
+      }        
+    }else{
+      this.userService.createAccount(accountRequest)
+        .subscribe(res =>{
+          this.showMessage = undefined;
+          location.reload();
+        },
+        err =>{
           console.log(err);
-          this.showMessage = err.error;        
+          this.showMessage = err.error;
         });
+    }    
   }
 
   uploadChange(event){
@@ -84,7 +103,7 @@ export class SignUpComponent implements OnInit {
     }
     else{
       this.isImage = false;
-      this.showMessage = "Please upload either jpeg or png file."
+      this.showMessage = "Please upload either jpg, jpeg, or png file."
       
     }
   }
