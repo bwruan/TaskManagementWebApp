@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="row g-0">
           <div class="col-3">
-            <img [src]="imageSrc" alt="" [style.border-style]="'solid'">
+            <img [src]="imageSrc" width="300px" height="300px" [style.border-style]="'solid'">
           </div>
           <div class="col-9">
             <div class="card-body">
@@ -25,7 +25,7 @@
 
 <div class="row">
     <h2 style.fontStyle="bold">PROJECT MEMBERS</h2>
-    <table class="table table-bordered">
+    <table datatable [dtTrigger]="dtTrigger" class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">Name</th>

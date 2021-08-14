@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
 import { Account } from '../model/account';
 import { BaseTaskRequest } from '../model/request/base-task-request';
 import { CommentRequest } from '../model/request/comment-request';
@@ -18,6 +19,8 @@ import { UserToProjectService } from '../service/user-to-project-service';
 export class TaskComponent implements OnInit {
   @ViewChild('addTaskForm') addTaskForm;
   @ViewChild('addCommentForm') addCommentForm;
+
+  dtTrigger: Subject<any> = new Subject<any>();
   
   showMessage: any;
   taskModalState: boolean;
@@ -51,9 +54,14 @@ export class TaskComponent implements OnInit {
     this.taskService.getTasksByProjectId(projectId)
     .subscribe(res => {
       this.tasks = res;
+      this.dtTrigger.next();
     }, err => {
       this.showMessage = "Unable to grab tasks.";
     });
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
 
   openModal(taskId): void{
