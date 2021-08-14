@@ -44,7 +44,7 @@ export class UpdateAccountComponent implements OnInit {
       this.updateAccountObj.roleId = res.roleId;
       this.updateAccountObj.profilePic = res.profilePic;
       
-      if (this.updateAccountObj.profilePic === undefined){
+      if (this.updateAccountObj.profilePic == undefined){
         this.imageSrc = 'assets/image/defaultProfile.jpg';
       }else{
   

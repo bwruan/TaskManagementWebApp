@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Account } from 'src/app/model/account';
 import { Project } from 'src/app/model/project';
@@ -24,8 +26,9 @@ export class ProjectPageComponent implements OnInit {
     fontStyle: "italic",
     fontSize: "10"
   };
+  imageSrc: any;
   
-  constructor(private projectService: ProjectService, private uToPService: UserToProjectService, private route: ActivatedRoute) { }
+  constructor(private projectService: ProjectService, private uToPService: UserToProjectService, private route: ActivatedRoute, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     let projId = parseInt(this.route.snapshot.paramMap.get('id'));
@@ -38,6 +41,15 @@ export class ProjectPageComponent implements OnInit {
       this.projectObj.projectDescription = res.projectDescription;
       this.projectObj.startDate = res.startDate;
       this.projectObj.endDate = res.endDate;
+      this.projectObj.ownerAccount = res.ownerAccount;
+      this.projectObj.ownerAccount.profilePic = res.ownerAccount.profilePic;
+
+      if (this.projectObj.ownerAccount.profilePic == undefined){
+        this.imageSrc = 'assets/image/defaultProfile.jpg';
+      }else{
+        var url = 'data:image/jpeg;base64,' + res.ownerAccount.profilePic;
+        this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(url);  
+      }
       
       this.uToPService.getAccountByProjectId(projId)
       .subscribe(res => {
