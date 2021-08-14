@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { Account } from '../model/account';
 import { Project } from '../model/project';
 import { ProjectRequest } from '../model/request/project-request';
@@ -12,8 +13,10 @@ import { UserToProjectService } from '../service/user-to-project-service';
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css']
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent implements OnInit, OnDestroy  {
   @ViewChild('addProjectForm') addProjectForm;
+
+  dtTrigger: Subject<any> = new Subject<any>();
 
   projects: Project[];
   showMessage: any;
@@ -26,7 +29,7 @@ export class ProjectComponent implements OnInit {
     fontSize: "10"
   };
 
-  constructor(private projectService: ProjectService, private uToPService: UserToProjectService, private userService: UserService,private router: Router) { }
+  constructor(private projectService: ProjectService, private uToPService: UserToProjectService, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.projObj.ownerAccount = new Account();
@@ -34,6 +37,7 @@ export class ProjectComponent implements OnInit {
     this.uToPService.getProjectsByAccountId()
     .subscribe(res => {
       this.projects = res;
+      this.dtTrigger.next();
 
       this.userService.getAccountById()
       .subscribe(res => {
@@ -46,6 +50,10 @@ export class ProjectComponent implements OnInit {
       console.log("error");
       this.showMessage = "Unable to grab projects.";
     });
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
 
   onSelect(projectId): void {

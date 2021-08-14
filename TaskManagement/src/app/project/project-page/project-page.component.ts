@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
 import { Account } from 'src/app/model/account';
 import { Project } from 'src/app/model/project';
 import { MemberRequest } from 'src/app/model/request/member-request';
@@ -14,6 +16,8 @@ import { UserToProjectService } from 'src/app/service/user-to-project-service';
 export class ProjectPageComponent implements OnInit {
   @ViewChild('addMemberForm') addMemberForm;
   
+  dtTrigger: Subject<any> = new Subject<any>();
+  
   accounts: Account[];
   showMessage: any;
   projectObj: Project = new Project();
@@ -24,8 +28,9 @@ export class ProjectPageComponent implements OnInit {
     fontStyle: "italic",
     fontSize: "10"
   };
+  imageSrc: any;
   
-  constructor(private projectService: ProjectService, private uToPService: UserToProjectService, private route: ActivatedRoute) { }
+  constructor(private projectService: ProjectService, private uToPService: UserToProjectService, private route: ActivatedRoute, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     let projId = parseInt(this.route.snapshot.paramMap.get('id'));
@@ -38,16 +43,30 @@ export class ProjectPageComponent implements OnInit {
       this.projectObj.projectDescription = res.projectDescription;
       this.projectObj.startDate = res.startDate;
       this.projectObj.endDate = res.endDate;
+      this.projectObj.ownerAccount = res.ownerAccount;
+      this.projectObj.ownerAccount.profilePic = res.ownerAccount.profilePic;
+
+      if (this.projectObj.ownerAccount.profilePic == undefined){
+        this.imageSrc = 'assets/image/defaultProfile.jpg';
+      }else{
+        var url = 'data:image/jpeg;base64,' + res.ownerAccount.profilePic;
+        this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(url);  
+      }
       
       this.uToPService.getAccountByProjectId(projId)
       .subscribe(res => {
         this.accounts = res;
+        this.dtTrigger.next();
       }, err => {
         this.showMessage = "Unable to get accounts";
       });
     }, err => {
       this.showMessage = "Unable to get project info";
     });
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
 
   openModal(): void{

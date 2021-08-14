@@ -17,6 +17,8 @@ import { ProjectPageComponent } from './project/project-page/project-page.compon
 import { TaskComponent } from './task/task.component';
 import { ProjectService } from './service/project-service';
 import { TaskService } from './service/task-service';
+import { DataTablesModule } from 'angular-datatables';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -28,14 +30,16 @@ import { TaskService } from './service/task-service';
     NotFoundComponent,
     ProjectComponent,
     ProjectPageComponent,
-    TaskComponent
+    TaskComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    DpDatePickerModule
+    DpDatePickerModule,
+    DataTablesModule
   ],
   providers: [UserService, ProjectService, TaskService],
   bootstrap: [AppComponent]
