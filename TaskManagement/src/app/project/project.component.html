@@ -1,104 +1,106 @@
-<div class="row">
-    <table datatable [dtTrigger]="dtTrigger" class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Project Name</th>
-                <th>Description</th>
-                <th>Owner</th>
-                <th>Start Date</th>
-                <th>Due Date</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let project of projects" value="{{project.accountId}}">
-                <td scope="row">{{project.projectName}}</td>
-                <td>{{project.projectDescription}}</td>
-                <td>{{project.ownerAccount.name}}</td>
-                <td>{{project.startDate | date: 'shortDate'}}</td>
-                <td>{{project.endDate | date: 'shortDate'}}</td>
-                <td>
-                    <button type="button" class="btn btn-primary" (click)="onSelect(project.projectId)" style="margin-right: 10px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+<div class="container" style="margin-top: 30px;">
+    <div class="row">
+        <table datatable [dtTrigger]="dtTrigger" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Project Name</th>
+                    <th>Description</th>
+                    <th>Owner</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let project of projects" value="{{project.accountId}}">
+                    <td scope="row">{{project.projectName}}</td>
+                    <td>{{project.projectDescription}}</td>
+                    <td>{{project.ownerAccount.name}}</td>
+                    <td>{{project.startDate | date: 'shortDate'}}</td>
+                    <td>{{project.endDate | date: 'shortDate'}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" (click)="onSelect(project.projectId)" style="margin-right: 10px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                              </svg>
+                        </button>
+                        <button type="button" class="btn btn-danger" (click)="deleteProject(project.projectId)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                           </svg>
-                    </button>
-                    <button type="button" class="btn btn-danger" (click)="deleteProject(project.projectId)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                      </svg>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div>
-    <button type="button" class="btn btn-primary" (click)="openModal()">Add Project</button>
-</div>
-
-<form #addProjectForm = "ngForm">
-    <div [style.display] = "addProjModalState ? 'block': 'none'" style="opacity: 1;" class="modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addProjModalLabel">Add Project</h5>
-                    <button type="button" class="btn-close" (click)="closeModal()"></button>
-                </div>
-                <div class="modal-body">
-                    <div *ngIf ="showMessage" [ngStyle]="errorMsgStyle">{{showMessage}}</div>
-                    <div class="form-group">
-                        <label for="inputName" class="col-form-label">Project Name</label>
-                        <div>
-                            <input type="text" class="form-control" id="inputName" name="projName" [(ngModel)]="projObj.projectName" required>
-                            <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['projName'] !== undefined && addProjectForm.controls['projName'].invalid && (addProjectForm.controls['projName'].dirty || addProjectForm.controls['projName'].touched) && addProjectForm.controls['projName'].errors" class="alert">
-                                Project Name required.
-                            </span>
-                        </div>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div>
+        <button type="button" class="btn btn-primary" (click)="openModal()">Add Project</button>
+    </div>
+    
+    <form #addProjectForm = "ngForm">
+        <div [style.display] = "addProjModalState ? 'block': 'none'" style="opacity: 1;" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addProjModalLabel">Add Project</h5>
+                        <button type="button" class="btn-close" (click)="closeModal()"></button>
                     </div>
-                    <div class="form-group">
-                        <label for="inputDescription" class="col-form-label">Project Description</label>
-                        <div>
-                            <textarea class="form-control" id="inputDescription" name="projDescription" [(ngModel)]="projObj.projectDescription" rows="3" required></textarea>
-                            <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['projDescription'] !== undefined && addProjectForm.controls['projDescription'].invalid && (addProjectForm.controls['projDescription'].dirty || addProjectForm.controls['projDescription'].touched) && addProjectForm.controls['projDescription'].errors" class="alert">
-                                Project Description required.
-                            </span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-6">
-                            <label for="inputStart" class="col-form-label">Start Date</label>
+                    <div class="modal-body">
+                        <div *ngIf ="showMessage" [ngStyle]="errorMsgStyle">{{showMessage}}</div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-form-label">Project Name</label>
                             <div>
-                                <input type="date" class="form-control" id="inputStart" name="startDate" [(ngModel)]="projObj.startDate" required>
-                                <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['startDate'] !== undefined && addProjectForm.controls['startDate'].invalid && (addProjectForm.controls['startDate'].dirty || addProjectForm.controls['startDate'].touched) && addProjectForm.controls['startDate'].errors" class="alert">
-                                Please select start date.
+                                <input type="text" class="form-control" id="inputName" name="projName" [(ngModel)]="projObj.projectName" required>
+                                <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['projName'] !== undefined && addProjectForm.controls['projName'].invalid && (addProjectForm.controls['projName'].dirty || addProjectForm.controls['projName'].touched) && addProjectForm.controls['projName'].errors" class="alert">
+                                    Project Name required.
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group col-6">
-                            <label for="inputEnd" class="col-form-label">End Date</label>
+                        <div class="form-group">
+                            <label for="inputDescription" class="col-form-label">Project Description</label>
                             <div>
-                                <input type="date" class="form-control" id="inputEnd" name="endDate" [(ngModel)]="projObj.endDate" required>
-                                <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['endDate'] !== undefined && addProjectForm.controls['endDate'].invalid && (addProjectForm.controls['endDate'].dirty || addProjectForm.controls['endDate'].touched) && addProjectForm.controls['endDate'].errors" class="alert">
-                                    Please select end date.
+                                <textarea class="form-control" id="inputDescription" name="projDescription" [(ngModel)]="projObj.projectDescription" rows="3" required></textarea>
+                                <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['projDescription'] !== undefined && addProjectForm.controls['projDescription'].invalid && (addProjectForm.controls['projDescription'].dirty || addProjectForm.controls['projDescription'].touched) && addProjectForm.controls['projDescription'].errors" class="alert">
+                                    Project Description required.
                                 </span>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputOwner" class="col-form-label">Owner</label>
-                        <div>
-                            <input type="text" class="form-control" id="inputOwner" name="ownerAccount" [(ngModel)]="projObj.ownerAccount.name" disabled>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="inputStart" class="col-form-label">Start Date</label>
+                                <div>
+                                    <input type="date" class="form-control" id="inputStart" name="startDate" [(ngModel)]="projObj.startDate" required>
+                                    <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['startDate'] !== undefined && addProjectForm.controls['startDate'].invalid && (addProjectForm.controls['startDate'].dirty || addProjectForm.controls['startDate'].touched) && addProjectForm.controls['startDate'].errors" class="alert">
+                                    Please select start date.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="inputEnd" class="col-form-label">End Date</label>
+                                <div>
+                                    <input type="date" class="form-control" id="inputEnd" name="endDate" [(ngModel)]="projObj.endDate" required>
+                                    <span [ngStyle]="errorMsgStyle" *ngIf="addProjectForm.controls['endDate'] !== undefined && addProjectForm.controls['endDate'].invalid && (addProjectForm.controls['endDate'].dirty || addProjectForm.controls['endDate'].touched) && addProjectForm.controls['endDate'].errors" class="alert">
+                                        Please select end date.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputOwner" class="col-form-label">Owner</label>
+                            <div>
+                                <input type="text" class="form-control" id="inputOwner" name="ownerAccount" [(ngModel)]="projObj.ownerAccount.name" disabled>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-                    <button type="button" class="btn btn-primary" [disabled]="addProjectForm.form.invalid" (click)="createProject()">Add</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                        <button type="button" class="btn btn-primary" [disabled]="addProjectForm.form.invalid" (click)="createProject()">Add</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
