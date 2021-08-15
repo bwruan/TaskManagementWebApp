@@ -1,6 +1,6 @@
 <app-nav-bar (openModalEvent)="openModal()"></app-nav-bar>
 <div>
-    <router-outlet></router-outlet>
+    <router-outlet></router-outlet>    
 </div>
 <app-log-in [openModalInput]="modalState" (closeModalEvent)="closeModal()" (openSignUpModalEvent)="openSignUpModal()"></app-log-in>
 <app-sign-up [openSignUpModalInput]="signUpModalState" (closeSignUpModalEvent)="closeSignUpModal()"></app-sign-up>
