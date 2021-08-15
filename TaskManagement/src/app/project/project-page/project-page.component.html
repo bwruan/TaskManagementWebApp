@@ -1,97 +1,99 @@
-<div class="row">
-    <div class="card mb-3">
-        <div class="row g-0">
-          <div class="col-3">
-            <img [src]="imageSrc" width="300px" height="300px" [style.border-style]="'solid'">
-          </div>
-          <div class="col-9">
-            <div class="card-body">
-              <h3 class="card-title">{{projectObj.projectName}}</h3>
-              <p class="card-text">{{projectObj.projectDescription}}</p>
-              <span class="card-text">Start Date: {{projectObj.startDate | date: 'shortDate'}}</span>
-              <p class="card-text">End Date: {{projectObj.endDate | date: 'shortDate'}}</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+<div class="container" style="margin-top: 30px; padding-bottom: 50px;">
+    <div class="row">
+        <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-3">
+                <img [src]="imageSrc" width="300px" height="300px" [style.border-style]="'solid'">
+              </div>
+              <div class="col-9">
+                <div class="card-body">
+                  <h3 class="card-title">{{projectObj.projectName}}</h3>
+                  <p class="card-text">{{projectObj.projectDescription}}</p>
+                  <span class="card-text">Start Date: {{projectObj.startDate | date: 'shortDate'}}</span>
+                  <p class="card-text">End Date: {{projectObj.endDate | date: 'shortDate'}}</p>
+                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+              </div>
             </div>
-          </div>
         </div>
     </div>
-</div>
-
-<div class="row">
-    <p></p>
-    <p></p>
-    <p></p>
-</div>
-
-<div class="row">
-    <h2 style.fontStyle="bold">PROJECT MEMBERS</h2>
-    <table datatable [dtTrigger]="dtTrigger" class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
-                <th scope="col">Status</th>
-                <th> </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let account of accounts">
-                <th scope="row">{{account.name}}</th>
-                <td>{{account.email}}</td>
-                <td>{{account.roleName}}</td>
-                <td *ngIf="account.status">Online</td>
-                <td *ngIf="!account.status">Offline</td>
-                <td>
-                    <button type="button" class="btn btn-danger" style="cursor: pointer;" (click)="removeMember(account.id)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                      </svg>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div>
-    <button type="button" class="btn btn-primary" (click)="openModal()">Add Member</button>
-</div>
-
-<form #addMemberForm = "ngForm">
-    <div [style.display] = "addMemberModalState ? 'block': 'none'" style="opacity: 1;" class="modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addMemberModalLabel">Add a Member</h5>
-                    <button type="button" class="btn-close" (click)="closeModal()"></button>
-                </div>
-                <div class="modal-body">
-                    <div *ngIf ="showMessage" [ngStyle]="errorMsgStyle">{{showMessage}}</div>
-                    <div class="form-group">
-                        <label for="emailAddress" class="col-form-label">Email Address</label>
-                        <div>
-                            <input type="email" class="form-control" id="emailAddress" name="email" [(ngModel)]="memberObj.email" required>
-                            <span [ngStyle]="errorMsgStyle" *ngIf="addMemberForm.controls['email'] !== undefined && addMemberForm.controls['email'].invalid && (addMemberForm.controls['email'].dirty || addMemberForm.controls['email'].touched) && addMemberForm.controls['email'].errors" class="alert">
-                                Provide an email address.
-                            </span>
+    
+    <div class="row">
+        <p></p>
+        <p></p>
+        <p></p>
+    </div>
+    
+    <div class="row">
+        <h2 style.fontStyle="bold">PROJECT MEMBERS</h2>
+        <table datatable [dtTrigger]="dtTrigger" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let account of accounts">
+                    <th scope="row">{{account.name}}</th>
+                    <td>{{account.email}}</td>
+                    <td>{{account.roleName}}</td>
+                    <td *ngIf="account.status">Online</td>
+                    <td *ngIf="!account.status">Offline</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" style="cursor: pointer;" (click)="removeMember(account.id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                          </svg>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div>
+        <button type="button" class="btn btn-primary" (click)="openModal()">Add Member</button>
+    </div>
+    
+    <form #addMemberForm = "ngForm">
+        <div [style.display] = "addMemberModalState ? 'block': 'none'" style="opacity: 1;" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addMemberModalLabel">Add a Member</h5>
+                        <button type="button" class="btn-close" (click)="closeModal()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div *ngIf ="showMessage" [ngStyle]="errorMsgStyle">{{showMessage}}</div>
+                        <div class="form-group">
+                            <label for="emailAddress" class="col-form-label">Email Address</label>
+                            <div>
+                                <input type="email" class="form-control" id="emailAddress" name="email" [(ngModel)]="memberObj.email" required>
+                                <span [ngStyle]="errorMsgStyle" *ngIf="addMemberForm.controls['email'] !== undefined && addMemberForm.controls['email'].invalid && (addMemberForm.controls['email'].dirty || addMemberForm.controls['email'].touched) && addMemberForm.controls['email'].errors" class="alert">
+                                    Provide an email address.
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-                    <button type="button" class="btn btn-primary" [disabled]="addMemberForm.form.invalid" (click)="addMember()">Add</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                        <button type="button" class="btn btn-primary" [disabled]="addMemberForm.form.invalid" (click)="addMember()">Add</button>
+                    </div>
                 </div>
             </div>
         </div>
+    </form>
+    
+    <div class="row">
+        <p></p>
+        <p></p>
+        <p></p>
     </div>
-</form>
-
-<div class="row">
-    <p></p>
-    <p></p>
-    <p></p>
+    
+    <app-task></app-task>   
 </div>
-
-<app-task></app-task>
